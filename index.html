@@ -32,9 +32,6 @@
               darkcard: '#1c1c1e',
               darkborder: '#2c2c2e'
             }
-          },
-          fontFamily: {
-            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif']
           }
         }
       }
@@ -60,15 +57,16 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .checkbox-ios {
       appearance: none;
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       border: 2px solid #c7c7cc;
-      border-radius: 7px;
+      border-radius: 6px;
       display: inline-grid;
       place-content: center;
       transition: all 0.15s ease;
       cursor: pointer;
       background: transparent;
+      flex-shrink: 0;
     }
     .checkbox-ios:checked {
       background-color: #0f6e43;
@@ -76,8 +74,8 @@
     }
     .checkbox-ios:checked::before {
       content: "";
-      width: 12px;
-      height: 7px;
+      width: 11px;
+      height: 6px;
       border-left: 2.5px solid white;
       border-bottom: 2.5px solid white;
       transform: rotate(-45deg) translate(1px, -1px);
@@ -86,53 +84,53 @@
 </head>
 <body class="min-h-screen flex flex-col selection:bg-surg-500 selection:text-white">
 
-  <!-- ================= AUTHENTICATION OVERLAY ================= -->
+  <!-- ================= 1. REAL FIREBASE AUTHENTICATION SCREEN ================= -->
   <div id="authScreen" class="fixed inset-0 z-50 bg-ios-bg dark:bg-ios-darkbg flex items-center justify-center p-4 overflow-y-auto">
-    <div class="w-full max-w-md bg-white dark:bg-ios-darkcard rounded-3xl shadow-xl border border-ios-border dark:border-ios-darkborder p-6 sm:p-8 space-y-6">
-      <div class="text-center space-y-2">
-        <div class="w-16 h-16 rounded-2xl bg-surg-600 text-white mx-auto flex items-center justify-center shadow-md">
-          <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <div class="w-full max-w-md bg-white dark:bg-ios-darkcard rounded-3xl shadow-xl border border-ios-border dark:border-ios-darkborder p-6 sm:p-8 space-y-5">
+      <div class="text-center space-y-1.5">
+        <div class="w-14 h-14 rounded-2xl bg-surg-600 text-white mx-auto flex items-center justify-center shadow-md">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
           </svg>
         </div>
-        <h1 class="text-2xl font-bold tracking-tight">Unit D Workspace</h1>
-        <p class="text-sm text-gray-500 dark:text-gray-400">General Surgery & Trauma Clinical System</p>
+        <h1 class="text-xl font-bold tracking-tight">Unit D Clinical Portal</h1>
+        <p class="text-xs text-gray-500 dark:text-gray-400">Authenticated Surgical & Trauma System</p>
       </div>
 
-      <!-- Auth Tabs -->
-      <div class="grid grid-cols-2 bg-gray-100 dark:bg-zinc-800 p-1 rounded-xl text-sm font-medium">
-        <button id="tabSignInBtn" onclick="window.switchAuthMode('signin')" class="py-2 rounded-lg bg-white dark:bg-zinc-700 shadow-sm transition">Sign In</button>
-        <button id="tabSignUpBtn" onclick="window.switchAuthMode('signup')" class="py-2 rounded-lg text-gray-500 dark:text-gray-400 transition">New Doctor</button>
+      <!-- Sign In / Register Switcher -->
+      <div class="grid grid-cols-2 bg-gray-100 dark:bg-zinc-800 p-1 rounded-xl text-xs font-semibold">
+        <button type="button" id="tabSignInBtn" onclick="window.switchAuthMode('signin')" class="py-2 rounded-lg bg-white dark:bg-zinc-700 shadow-xs transition">Sign In</button>
+        <button type="button" id="tabSignUpBtn" onclick="window.switchAuthMode('signup')" class="py-2 rounded-lg text-gray-500 dark:text-gray-400 transition">Create Doctor Account</button>
       </div>
 
-      <!-- Google Quick Login -->
-      <button onclick="window.handleGoogleSignIn()" class="w-full py-3 px-4 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700 flex items-center justify-center gap-3 font-medium text-sm transition shadow-sm">
-        <svg class="w-5 h-5" viewBox="0 0 24 24">
+      <!-- Google OAuth Button -->
+      <button type="button" onclick="window.handleGoogleSignIn()" class="w-full py-2.5 px-4 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700 flex items-center justify-center gap-2.5 font-semibold text-xs transition shadow-2xs">
+        <svg class="w-4 h-4" viewBox="0 0 24 24">
           <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.8C6.2 7.2 8.9 5 12 5z"/>
           <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.6l3.7 2.9c2.2-2 3.7-5 3.7-8.7z"/>
           <path fill="#FBBC05" d="M5.3 14.8c-.2-.8-.4-1.6-.4-2.5s.2-1.7.4-2.5L1.6 7C.6 9 0 11.2 0 13.5s.6 4.5 1.6 6.5l3.7-2.9z"/>
           <path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.1-6.7-5L1.6 17c1.9 3.9 5.8 7 10.4 7z"/>
         </svg>
-        <span>Continue with Google Account</span>
+        <span>Sign In with Google</span>
       </button>
 
-      <div class="relative flex py-1 items-center">
+      <div class="relative flex py-0.5 items-center">
         <div class="flex-grow border-t border-gray-200 dark:border-zinc-700"></div>
-        <span class="flex-shrink mx-3 text-xs text-gray-400 uppercase">or via email</span>
+        <span class="flex-shrink mx-3 text-[11px] text-gray-400 uppercase">or email credentials</span>
         <div class="flex-grow border-t border-gray-200 dark:border-zinc-700"></div>
       </div>
 
-      <!-- Email Form -->
-      <form id="authForm" onsubmit="window.handleEmailAuth(event)" class="space-y-3.5">
-        <div id="signupExtraFields" class="hidden space-y-3.5">
+      <!-- Email & Password Form -->
+      <form id="authForm" onsubmit="window.handleEmailAuth(event)" class="space-y-3">
+        <div id="signupExtraFields" class="hidden space-y-3">
           <div>
-            <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Doctor Display Name *</label>
-            <input id="authDocName" type="text" placeholder="e.g., Dr. Ahmed Altalibi" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-surg-500" />
+            <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Full Clinical Name *</label>
+            <input id="authDocName" type="text" placeholder="Dr. Ahmed Altalibi" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-surg-500" />
           </div>
           <div class="grid grid-cols-2 gap-2.5">
             <div>
-              <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Clinical Role</label>
-              <select id="authDocRole" class="w-full px-3 py-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm focus:outline-none">
+              <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Role *</label>
+              <select id="authDocRole" class="w-full px-3 py-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-xs font-medium focus:outline-none">
                 <option value="GS Resident">GS Resident</option>
                 <option value="Senior Surgeon">Senior Surgeon</option>
                 <option value="Specialist">Specialist</option>
@@ -141,8 +139,8 @@
               </select>
             </div>
             <div>
-              <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Unit D Code (Optional)</label>
-              <input id="authUnitCode" type="text" placeholder="e.g., 2026" class="w-full px-3 py-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm focus:outline-none" />
+              <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Unit D Code</label>
+              <input id="authUnitCode" type="text" placeholder="2026" class="w-full px-3 py-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm focus:outline-none" />
             </div>
           </div>
         </div>
@@ -152,14 +150,14 @@
           <input id="authEmail" type="email" required placeholder="doctor@hospital.ly" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-surg-500" />
         </div>
         <div>
-          <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Password *</label>
-          <input id="authPassword" type="password" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-surg-500" />
+          <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Password (min 6 chars) *</label>
+          <input id="authPassword" type="password" required minlength="6" placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-surg-500" />
         </div>
 
-        <p id="authErrorMsg" class="text-xs text-red-600 hidden"></p>
+        <div id="authErrorMsg" class="p-2.5 rounded-xl bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800 text-xs text-red-600 dark:text-red-300 hidden"></div>
 
         <button type="submit" id="authSubmitBtn" class="w-full py-3 rounded-xl bg-surg-600 hover:bg-surg-700 text-white font-semibold text-sm shadow-sm transition">
-          Sign In to Workspace
+          Sign In
         </button>
       </form>
     </div>
@@ -175,38 +173,37 @@
       </div>
       <div>
         <h2 class="text-xl font-bold">Unit D Protected Access</h2>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Welcome, <span id="lockDocName" class="font-semibold text-gray-800 dark:text-gray-200">Doctor</span>. Enter the Unit D passcode provided by Dr. Ahmed or wait for admin approval.</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Logged in as <strong id="lockDocName" class="text-gray-800 dark:text-gray-200">Doctor</strong>. Enter the Unit D passcode or wait for admin approval.</p>
       </div>
-      <div class="space-y-3">
-        <input id="unlockCodeInput" type="text" placeholder="Enter Unit D Access Code" class="w-full px-4 py-3 text-center tracking-widest font-bold text-lg rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-surg-500" />
-        <button onclick="window.verifyUnitAccessCode()" class="w-full py-3 rounded-xl bg-surg-600 hover:bg-surg-700 text-white font-semibold text-sm transition">
+      <div class="space-y-2.5">
+        <input id="unlockCodeInput" type="text" placeholder="Unit D Passcode (e.g. 2026)" class="w-full px-4 py-2.5 text-center tracking-widest font-bold text-base rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-surg-500" />
+        <button onclick="window.verifyUnitAccessCode()" class="w-full py-2.5 rounded-xl bg-surg-600 hover:bg-surg-700 text-white font-semibold text-sm transition">
           Unlock Unit D
         </button>
-        <button onclick="window.requestAdminApproval()" id="reqApprovalBtn" class="w-full py-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-800 transition">
-          Request Approval from Unit Admin
+        <button onclick="window.requestAdminApproval()" id="reqApprovalBtn" class="w-full py-2 rounded-xl border border-gray-200 dark:border-zinc-700 text-xs font-medium text-gray-600 dark:text-gray-300">
+          Request Admin Approval
         </button>
       </div>
       <div class="pt-3 border-t border-gray-100 dark:border-zinc-800 flex justify-between items-center text-xs text-gray-400">
-        <span>Status: <strong id="approvalStatusText" class="text-amber-600">Pending Verification</strong></span>
-        <button onclick="window.signOutDoctor()" class="text-red-500 font-medium">Sign Out</button>
+        <span id="approvalStatusText" class="text-amber-600 font-medium">Awaiting Unit D Authorization</span>
+        <button onclick="window.signOutDoctor()" class="text-red-500 font-semibold">Sign Out</button>
       </div>
     </div>
   </div>
 
-  <!-- ================= SIDEBAR DRAWER (SLIDE-OVER) ================= -->
+  <!-- ================= SIDEBAR DRAWER ================= -->
   <div id="sidebarOverlay" onclick="window.toggleSidebar(false)" class="fixed inset-0 z-40 bg-black/40 backdrop-blur-xs hidden transition-opacity"></div>
   <aside id="sidebarDrawer" class="fixed top-0 left-0 bottom-0 z-50 w-80 max-w-[85vw] bg-white dark:bg-ios-darkcard border-r border-ios-border dark:border-ios-darkborder transform -translate-x-full transition-transform duration-200 ease-out flex flex-col">
     <!-- Doctor Profile Header -->
     <div class="p-5 bg-surg-600 text-white space-y-3">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <div class="relative">
-            <img id="sidebarDocAvatar" src="" alt="Avatar" class="w-12 h-12 rounded-full object-cover border-2 border-white/80 bg-surg-800 hidden" />
-            <div id="sidebarDocInitials" class="w-12 h-12 rounded-full bg-white/20 border border-white/40 flex items-center justify-center font-bold text-lg">DR</div>
-          </div>
+          <img id="sidebarDocAvatar" src="" alt="Avatar" class="w-11 h-11 rounded-full object-cover border-2 border-white/80 bg-surg-800 hidden" />
+          <div id="sidebarDocInitials" class="w-11 h-11 rounded-full bg-white/20 border border-white/40 flex items-center justify-center font-bold text-base">DR</div>
           <div>
-            <h3 id="sidebarDocName" class="font-bold text-base leading-tight">Dr. Ahmed</h3>
-            <p id="sidebarDocRole" class="text-xs text-emerald-100">GS Resident</p>
+            <h3 id="sidebarDocName" class="font-bold text-sm leading-tight">Dr. Ahmed</h3>
+            <p id="sidebarDocRole" class="text-[11px] text-emerald-100">GS Resident</p>
+            <p id="sidebarDocEmail" class="text-[10px] text-emerald-200/80 truncate max-w-[160px]"></p>
           </div>
         </div>
         <button onclick="window.openProfileModal()" title="Edit Profile" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition">
@@ -215,127 +212,84 @@
           </svg>
         </button>
       </div>
-      <div class="flex items-center justify-between pt-1 text-xs text-emerald-100">
+      <div class="flex items-center justify-between pt-1 text-[11px] text-emerald-100">
         <span class="inline-flex items-center gap-1.5 font-medium">
-          <span id="cloudStatusDot" class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
-          <span id="cloudStatusLabel">Unit D • Live Sync</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
+          <span>Unit D • Live Cloud</span>
         </span>
-        <button onclick="window.toggleDarkMode()" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-medium">
+        <button onclick="window.toggleDarkMode()" class="px-2.5 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-[11px]">
           Dark / Light
         </button>
       </div>
     </div>
 
     <!-- Unit D Collapsible Navigation -->
-    <div class="flex-1 overflow-y-auto p-3 space-y-4">
-      <div>
-        <button onclick="window.toggleUnitDMenu()" class="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-surg-50 dark:bg-emerald-950/40 text-surg-700 dark:text-emerald-300 font-bold text-sm">
-          <span class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-surg-600"></span>
-            <span>UNIT D — SURGERY</span>
-          </span>
-          <svg id="unitDChevron" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-          </svg>
+    <div class="flex-1 overflow-y-auto p-3 space-y-3">
+      <button onclick="window.toggleUnitDMenu()" class="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-surg-50 dark:bg-emerald-950/40 text-surg-700 dark:text-emerald-300 font-bold text-xs">
+        <span class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-surg-600"></span>
+          <span>UNIT D — GENERAL SURGERY</span>
+        </span>
+        <svg id="unitDChevron" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        </svg>
+      </button>
+
+      <div id="unitDNavItems" class="space-y-1 pl-1">
+        <div class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-gray-400">1. Surgical Wards</div>
+        <button onclick="window.selectSection('MALE_WARD')" id="nav_MALE_WARD" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition">
+          <span>Male Ward</span>
+          <span id="count_MALE_WARD" class="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">0</span>
+        </button>
+        <button onclick="window.selectSection('FEMALE_WARD')" id="nav_FEMALE_WARD" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition">
+          <span>Female Ward</span>
+          <span id="count_FEMALE_WARD" class="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">0</span>
         </button>
 
-        <div id="unitDNavItems" class="mt-2 space-y-1 pl-1">
-          <!-- 1. WARD (Collapsible Male & Female) -->
-          <div class="space-y-1">
-            <div class="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">1. Surgical Wards</div>
-            <button onclick="window.selectSection('MALE_WARD')" id="nav_MALE_WARD" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
-              <span class="flex items-center gap-2.5">
-                <svg class="w-4 h-4 opacity-75" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-                <span>Male Ward</span>
-              </span>
-              <span id="count_MALE_WARD" class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">0</span>
-            </button>
+        <div class="pt-2 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-gray-400">2. Critical Care</div>
+        <button onclick="window.selectSection('ICU')" id="nav_ICU" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition">
+          <span>Surgical ICU</span>
+          <span id="count_ICU" class="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">0</span>
+        </button>
 
-            <button onclick="window.selectSection('FEMALE_WARD')" id="nav_FEMALE_WARD" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
-              <span class="flex items-center gap-2.5">
-                <svg class="w-4 h-4 opacity-75" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-                <span>Female Ward</span>
-              </span>
-              <span id="count_FEMALE_WARD" class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">0</span>
-            </button>
-          </div>
+        <div class="pt-2 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-gray-400">3. Trauma & Operating Theater</div>
+        <button onclick="window.selectSection('TRAUMA_DAY')" id="nav_TRAUMA_DAY" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition">
+          <span>Trauma Day (Emergency)</span>
+          <span id="count_TRAUMA_DAY" class="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">0</span>
+        </button>
+        <button onclick="window.selectSection('ELECTIVE_OT')" id="nav_ELECTIVE_OT" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition">
+          <span>Elective OT List</span>
+          <span id="count_ELECTIVE_OT" class="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">0</span>
+        </button>
 
-          <!-- 2. ICU -->
-          <div class="pt-2 space-y-1">
-            <div class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">2. Critical Care</div>
-            <button onclick="window.selectSection('ICU')" id="nav_ICU" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
-              <span class="flex items-center gap-2.5">
-                <svg class="w-4 h-4 opacity-75" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
-                <span>Surgical ICU</span>
-              </span>
-              <span id="count_ICU" class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">0</span>
-            </button>
-          </div>
-
-          <!-- 3. TRAUMA DAY & ELECTIVE OT -->
-          <div class="pt-2 space-y-1">
-            <div class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">3. Trauma & Theater</div>
-            <button onclick="window.selectSection('TRAUMA_DAY')" id="nav_TRAUMA_DAY" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
-              <span class="flex items-center gap-2.5">
-                <svg class="w-4 h-4 opacity-75" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
-                <span>Trauma Day (Emergency)</span>
-              </span>
-              <span id="count_TRAUMA_DAY" class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">0</span>
-            </button>
-
-            <button onclick="window.selectSection('ELECTIVE_OT')" id="nav_ELECTIVE_OT" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
-              <span class="flex items-center gap-2.5">
-                <svg class="w-4 h-4 opacity-75" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <span>Elective OT List</span>
-              </span>
-              <span id="count_ELECTIVE_OT" class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">0</span>
-            </button>
-          </div>
-
-          <!-- 4. TEMPLATES & ARCHIVE -->
-          <div class="pt-2 space-y-1">
-            <div class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">4. System & Templates</div>
-            <button onclick="window.selectSection('TEMPLATES')" id="nav_TEMPLATES" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
-              <span class="flex items-center gap-2.5">
-                <svg class="w-4 h-4 opacity-75" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
-                <span>Checklist Templates</span>
-              </span>
-              <span id="count_TEMPLATES" class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">4</span>
-            </button>
-
-            <button onclick="window.selectSection('ARCHIVE')" id="nav_ARCHIVE" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
-              <span class="flex items-center gap-2.5">
-                <svg class="w-4 h-4 opacity-75" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>
-                <span>Discharged Archive</span>
-              </span>
-              <span id="count_ARCHIVE" class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">0</span>
-            </button>
-
-            <button onclick="window.selectSection('ADMIN')" id="nav_ADMIN" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
-              <span class="flex items-center gap-2.5">
-                <svg class="w-4 h-4 opacity-75" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
-                <span>Unit D Admin & Doctors</span>
-              </span>
-              <span id="pendingDoctorsBadge" class="hidden text-xs px-2 py-0.5 rounded-full bg-amber-500 text-white font-bold">0</span>
-            </button>
-          </div>
-        </div>
+        <div class="pt-2 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-gray-400">4. Management</div>
+        <button onclick="window.selectSection('TEMPLATES')" id="nav_TEMPLATES" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition">
+          <span>Checklist Templates Studio</span>
+          <span id="count_TEMPLATES" class="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">4</span>
+        </button>
+        <button onclick="window.selectSection('ARCHIVE')" id="nav_ARCHIVE" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition">
+          <span>Discharged Archive</span>
+          <span id="count_ARCHIVE" class="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800">0</span>
+        </button>
+        <button onclick="window.selectSection('ADMIN')" id="nav_ADMIN" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition">
+          <span>Unit D Admin & Roster</span>
+          <span id="pendingDoctorsBadge" class="hidden text-[11px] px-2 py-0.5 rounded-full bg-amber-500 text-white font-bold">0</span>
+        </button>
       </div>
     </div>
 
     <!-- Sidebar Footer -->
     <div class="p-3 border-t border-ios-border dark:border-ios-darkborder flex items-center justify-between gap-2">
       <button onclick="window.openGitHubDeployModal()" class="flex-1 py-2 px-3 rounded-xl bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 text-xs font-semibold flex items-center justify-center gap-1.5">
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
         <span>1-Click GitHub Update</span>
       </button>
-      <button onclick="window.signOutDoctor()" class="py-2 px-3 rounded-xl text-xs font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30">
-        Logout
+      <button onclick="window.signOutDoctor()" class="py-2 px-3 rounded-xl text-xs font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30">
+        Sign Out
       </button>
     </div>
   </aside>
 
-  <!-- ================= TOP HEADER (MINIMALIST SURGICAL GREEN BAR) ================= -->
+  <!-- ================= TOP HEADER ================= -->
   <header class="sticky top-0 z-30 bg-surg-600 text-white shadow-xs">
     <div class="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -344,152 +298,261 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
         </button>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 id="headerSectionTitle" class="font-bold text-base tracking-tight">Male Ward</h1>
-            <span class="text-[11px] px-2 py-0.5 rounded-full bg-white/15 font-medium">Unit D</span>
-          </div>
+        <div class="flex items-center gap-2">
+          <h1 id="headerSectionTitle" class="font-bold text-base tracking-tight">Male Ward</h1>
+          <span class="text-[11px] px-2 py-0.5 rounded-full bg-white/15 font-medium">Unit D</span>
         </div>
       </div>
 
-      <div class="flex items-center gap-2">
-        <button onclick="window.openAddPatientModal()" id="topAddPatientBtn" class="px-3.5 py-1.5 rounded-xl bg-white text-surg-700 font-semibold text-xs shadow-xs hover:bg-emerald-50 flex items-center gap-1 transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-          <span>Add Patient</span>
-        </button>
-      </div>
+      <button onclick="window.openAdmissionModal()" id="topAddPatientBtn" class="px-3.5 py-1.5 rounded-xl bg-white text-surg-700 font-semibold text-xs shadow-xs hover:bg-emerald-50 flex items-center gap-1 transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        <span>Admit Patient</span>
+      </button>
     </div>
   </header>
 
-  <!-- ================= MAIN WORKSPACE CONTAINER ================= -->
+  <!-- ================= MAIN WORKSPACE ================= -->
   <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-4 space-y-4">
-
-    <!-- Sub-Filter Bar (Dynamic based on active section) -->
     <div id="sectionFilterBar" class="flex items-center justify-between gap-2 overflow-x-auto no-scrollbar pb-1">
       <div id="subFilterButtons" class="flex items-center gap-1.5"></div>
       <div class="relative flex-shrink-0">
-        <input id="patientSearchInput" oninput="window.renderMainView()" type="text" placeholder="Search bed or diagnosis..." class="w-44 sm:w-56 pl-8 pr-3 py-1.5 rounded-xl bg-white dark:bg-ios-darkcard border border-ios-border dark:border-ios-darkborder text-xs focus:outline-none focus:ring-2 focus:ring-surg-500" />
+        <input id="patientSearchInput" oninput="window.renderMainView()" type="text" placeholder="Search bed, name, dx..." class="w-44 sm:w-56 pl-8 pr-3 py-1.5 rounded-xl bg-white dark:bg-ios-darkcard border border-ios-border dark:border-ios-darkborder text-xs focus:outline-none focus:ring-2 focus:ring-surg-500" />
         <svg class="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
       </div>
     </div>
 
-    <!-- Dynamic Content Area (Patient Cards / Templates Studio / Admin Panel) -->
     <div id="mainContentContainer" class="space-y-3 pb-20"></div>
   </main>
 
-  <!-- ================= FULL-SCREEN PATIENT FILE MODAL (iOS SHEET STYLE) ================= -->
+  <!-- ================= PATIENT FILE SHEET (FIXED SUMMARY + PREP + DATED ROUNDS) ================= -->
   <div id="patientDetailSheet" class="hidden fixed inset-0 z-40 bg-ios-bg dark:bg-ios-darkbg flex flex-col overflow-hidden">
-    <!-- Sheet Top Bar -->
     <div class="bg-surg-600 text-white px-4 py-3 flex items-center justify-between shadow-xs">
       <button onclick="window.closePatientSheet()" class="flex items-center gap-1 text-sm font-medium hover:opacity-80">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
         <span id="sheetBackLabel">Ward</span>
       </button>
       <div class="text-center">
-        <div id="sheetPatientHeader" class="font-bold text-sm">Bed 01 • M.A. (24M)</div>
-        <div id="sheetPatientSubheader" class="text-[11px] text-emerald-100">Acute Appendicitis</div>
+        <div id="sheetPatientHeader" class="font-bold text-sm">Bed 01 • Patient</div>
+        <div id="sheetPatientSubheader" class="text-[11px] text-emerald-100">Diagnosis</div>
       </div>
-      <div class="flex items-center gap-1.5">
-        <button onclick="window.openTransferModal()" class="px-2.5 py-1 rounded-lg bg-white/15 hover:bg-white/25 text-xs font-medium">
-          Transfer ➔
-        </button>
-      </div>
+      <button onclick="window.openTransferModal()" class="px-2.5 py-1 rounded-lg bg-white/15 hover:bg-white/25 text-xs font-medium">
+        Transfer ➔
+      </button>
     </div>
 
-    <!-- iOS Segmented Control for the 3 Core Tabs -->
+    <!-- 3-Tab Segmented Bar -->
     <div class="bg-white dark:bg-ios-darkcard border-b border-ios-border dark:border-ios-darkborder px-4 py-2.5">
       <div class="max-w-3xl mx-auto grid grid-cols-3 bg-gray-100 dark:bg-zinc-800 p-1 rounded-xl text-xs font-semibold">
-        <button id="ptTab_OVERVIEW" onclick="window.switchPatientTab('OVERVIEW')" class="py-2 rounded-lg bg-white dark:bg-zinc-700 shadow-xs transition">1. Overview & Labs</button>
+        <button id="ptTab_OVERVIEW" onclick="window.switchPatientTab('OVERVIEW')" class="py-2 rounded-lg bg-white dark:bg-zinc-700 shadow-xs transition">1. Clinical File & Labs</button>
         <button id="ptTab_PREP" onclick="window.switchPatientTab('PREP')" class="py-2 rounded-lg text-gray-500 dark:text-gray-400 transition">2. Preparation</button>
-        <button id="ptTab_ROUND" onclick="window.switchPatientTab('ROUND')" class="py-2 rounded-lg text-gray-500 dark:text-gray-400 transition">3. Daily Round</button>
+        <button id="ptTab_ROUND" onclick="window.switchPatientTab('ROUND')" class="py-2 rounded-lg text-gray-500 dark:text-gray-400 transition">3. Daily Rounds</button>
       </div>
     </div>
 
-    <!-- Scrollable Patient Tab Content -->
     <div id="patientTabBody" class="flex-1 overflow-y-auto max-w-3xl w-full mx-auto p-4 space-y-4 pb-28"></div>
 
-    <!-- Floating Minimalist Bottom Bar (Matches User's iPhone Screenshots) -->
+    <!-- Floating Bar for Preparation Tab -->
     <div id="prepFloatingBar" class="hidden fixed bottom-4 left-4 right-4 max-w-md mx-auto bg-white/95 dark:bg-zinc-900/95 ios-blur border border-gray-200 dark:border-zinc-700 rounded-2xl shadow-lg px-4 py-2.5 flex items-center justify-between z-50">
       <div class="flex items-center gap-3">
-        <span id="prepCounterBadge" class="text-xs font-bold text-gray-600 dark:text-gray-300">0/18 Ready</span>
-        <span id="prepOrderedBadge" class="text-[11px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 font-medium">0 Ordered</span>
+        <span id="prepCounterBadge" class="text-xs font-bold text-gray-700 dark:text-gray-200">0/0 Ready</span>
+        <span id="prepOrderedBadge" class="text-[11px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 font-semibold">0 Ordered</span>
       </div>
       <div class="flex items-center gap-2">
-        <button onclick="window.openTemplatePickerModal()" class="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-zinc-800 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-200">
+        <button onclick="window.openTemplatePickerModal()" class="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-zinc-800 text-xs font-semibold">
           Use Template
         </button>
-        <button onclick="window.promptAddPrepElement()" title="Add Element" class="w-8 h-8 rounded-xl bg-surg-600 hover:bg-surg-700 text-white flex items-center justify-center font-bold text-lg shadow-xs">
+        <button onclick="window.promptAddPrepElement()" title="Add Element" class="w-8 h-8 rounded-xl bg-surg-600 text-white flex items-center justify-center font-bold text-lg shadow-xs">
           +
         </button>
       </div>
     </div>
   </div>
 
-  <!-- ================= QUICK ADD / EDIT PATIENT MODAL ================= -->
-  <div id="addPatientModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div class="bg-white dark:bg-ios-darkcard w-full max-w-lg rounded-t-3xl sm:rounded-3xl border border-ios-border dark:border-ios-darkborder p-6 space-y-4 max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between">
-        <h3 class="text-lg font-bold">Admit / Add Patient</h3>
-        <button onclick="window.closeAddPatientModal()" class="p-1.5 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-500">✕</button>
+  <!-- ================= FULL ADMISSION CLERKING & BASELINE BUILDER MODAL ================= -->
+  <div id="admissionModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white dark:bg-ios-darkcard w-full max-w-2xl rounded-t-3xl sm:rounded-3xl border border-ios-border dark:border-ios-darkborder p-5 sm:p-6 space-y-4 max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-gray-100 dark:border-zinc-800 pb-3">
+        <div>
+          <h3 id="admissionModalTitle" class="text-base font-bold">Admit Patient & Baseline Clerking</h3>
+          <p class="text-xs text-gray-400">Tap quick chips to compose fixed clinical sentences, then save to lock the patient record.</p>
+        </div>
+        <button onclick="window.closeAdmissionModal()" class="p-1.5 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-500">✕</button>
       </div>
-      <form onsubmit="window.saveNewPatient(event)" class="space-y-3.5">
+
+      <form id="admissionForm" onsubmit="window.saveAdmissionClerking(event)" class="space-y-4">
+        <!-- Demographics & Ward Placement -->
         <div class="grid grid-cols-3 gap-2.5">
           <div>
             <label class="block text-xs font-medium text-gray-500 mb-1">Bed / Bay *</label>
-            <input id="newPtBed" type="text" required placeholder="Bed 4" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
+            <input id="admBed" type="text" required placeholder="Bed 4" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
           </div>
           <div>
-            <label class="block text-xs font-medium text-gray-500 mb-1">Name / Initials *</label>
-            <input id="newPtName" type="text" required placeholder="M.A." class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
+            <label class="block text-xs font-medium text-gray-500 mb-1">Patient Name/Initials *</label>
+            <input id="admName" type="text" required placeholder="M.A." class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
           </div>
           <div>
             <label class="block text-xs font-medium text-gray-500 mb-1">Age & Sex *</label>
-            <input id="newPtAgeSex" type="text" required placeholder="28M" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
+            <input id="admAgeSex" type="text" required placeholder="24M" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-2.5">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           <div>
-            <label class="block text-xs font-medium text-gray-500 mb-1">Unit Section *</label>
-            <select id="newPtSection" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm">
+            <label class="block text-xs font-medium text-gray-500 mb-1">Section *</label>
+            <select id="admSection" class="w-full px-2.5 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-xs font-semibold">
               <option value="MALE_WARD">Male Ward</option>
               <option value="FEMALE_WARD">Female Ward</option>
               <option value="ICU">Surgical ICU</option>
-              <option value="TRAUMA_DAY">Trauma Day (ER)</option>
+              <option value="TRAUMA_DAY">Trauma Day</option>
             </select>
           </div>
           <div>
             <label class="block text-xs font-medium text-gray-500 mb-1">Clinical Track *</label>
-            <select id="newPtTrack" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm">
-              <option value="Conservative">Conservative / Workup</option>
+            <select id="admTrack" class="w-full px-2.5 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-xs font-semibold">
+              <option value="Conservative">Conservative</option>
               <option value="Elective Prep">Elective OT Prep</option>
               <option value="Emergency OT">Emergency OT Prep</option>
-              <option value="Post-Op">Post-Op (In Ward/ICU)</option>
+              <option value="Post-Op">Post-Op</option>
               <option value="Consultation">Consultation</option>
             </select>
           </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-medium text-gray-500 mb-1">Diagnosis / Chief Presentation *</label>
-          <input id="newPtDiagnosis" type="text" required placeholder="e.g., Acute Appendicitis / Calculous Cholecystitis" class="w-full px-3.5 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
-        </div>
-
-        <div class="grid grid-cols-2 gap-2.5">
           <div>
-            <label class="block text-xs font-medium text-gray-500 mb-1">Planned / Done Procedure</label>
-            <input id="newPtProcedure" type="text" placeholder="e.g., Open Appendectomy" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
+            <label class="block text-xs font-medium text-gray-500 mb-1">Blood Group</label>
+            <select id="admBloodGroup" class="w-full px-2.5 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-xs font-bold">
+              <option value="Pending">Pending</option>
+              <option value="O+">O+</option><option value="O-">O-</option>
+              <option value="A+">A+</option><option value="A-">A-</option>
+              <option value="B+">B+</option><option value="B-">B-</option>
+              <option value="AB+">AB+</option><option value="AB-">AB-</option>
+            </select>
           </div>
           <div>
-            <label class="block text-xs font-medium text-gray-500 mb-1">Load Preparation Template</label>
-            <select id="newPtTemplateSelect" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm">
-              <option value="">None (Add later)</option>
+            <label class="block text-xs font-medium text-gray-500 mb-1">Viral Screen</label>
+            <select id="admViral" class="w-full px-2.5 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-xs font-semibold">
+              <option value="Pending">Pending</option>
+              <option value="Negative (-)">Negative (-)</option>
+              <option value="HBsAg (+)">HBsAg (+)</option>
+              <option value="HCV (+)">HCV (+)</option>
+              <option value="HIV (+)">HIV (+)</option>
             </select>
           </div>
         </div>
 
-        <button type="submit" class="w-full py-3 rounded-xl bg-surg-600 hover:bg-surg-700 text-white font-semibold text-sm shadow-sm">
-          Create Patient File
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-xs font-medium text-gray-500 mb-1">Diagnosis / Provisional Dx *</label>
+            <input id="admDiagnosis" type="text" required placeholder="e.g., Acute Appendicitis" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gray-500 mb-1">Planned / Performed Procedure</label>
+            <input id="admProcedure" type="text" placeholder="e.g., Open appendictomy" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
+          </div>
+        </div>
+
+        <!-- Quick History Sentence Builder -->
+        <div class="p-3.5 rounded-2xl bg-gray-50 dark:bg-zinc-800/60 border border-gray-200 dark:border-zinc-700 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold text-gray-700 dark:text-gray-200">1. Admission History & Comorbidities (Tap to insert into sentence)</label>
+            <button type="button" onclick="window.addCustomQuickChip('history')" class="text-[11px] font-semibold text-surg-600">+ Add New Chip</button>
+          </div>
+          <div id="admHistoryChipsContainer" class="flex flex-wrap gap-1.5"></div>
+          <textarea id="admHistoryText" rows="3" placeholder="Patient presented with..." class="w-full p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-xs focus:outline-none"></textarea>
+        </div>
+
+        <!-- Quick Physical Exam Sentence Builder -->
+        <div class="p-3.5 rounded-2xl bg-gray-50 dark:bg-zinc-800/60 border border-gray-200 dark:border-zinc-700 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold text-gray-700 dark:text-gray-200">2. Baseline Physical Examination on Admission (Tap to insert)</label>
+            <button type="button" onclick="window.addCustomQuickChip('exam')" class="text-[11px] font-semibold text-surg-600">+ Add New Chip</button>
+          </div>
+          <div id="admExamChipsContainer" class="flex flex-wrap gap-1.5"></div>
+          <textarea id="admExamText" rows="3" placeholder="On admission: Patient is conscious, alert, oriented..." class="w-full p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-xs focus:outline-none"></textarea>
+        </div>
+
+        <!-- Baseline Admission Labs (Only shown when creating a new patient) -->
+        <div id="admBaselineLabsSection" class="p-3.5 rounded-2xl bg-gray-50 dark:bg-zinc-800/60 border border-gray-200 dark:border-zinc-700 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold text-gray-700 dark:text-gray-200">3. Admission Baseline Laboratory Values</label>
+            <span class="text-[11px] text-gray-400">Saved as Baseline Column</span>
+          </div>
+          <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="admLabInputsGrid"></div>
+        </div>
+
+        <!-- Optional Template Selector on New Admission -->
+        <div id="admTemplateSection">
+          <label class="block text-xs font-medium text-gray-500 mb-1">Load Preparation Checklist Template (Optional)</label>
+          <select id="admTemplateSelect" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-xs font-semibold"></select>
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-xl bg-surg-600 hover:bg-surg-700 text-white font-bold text-sm shadow-sm">
+          ✓ Save & Lock Patient Clerking
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= ADD FOLLOW-UP LAB SET MODAL ================= -->
+  <div id="addLabSetModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-ios-darkcard w-full max-w-lg rounded-3xl border border-ios-border dark:border-ios-darkborder p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-bold text-base">Add Follow-Up Lab Results</h3>
+          <p class="text-xs text-gray-400">Adds a new dated column to compare with Admission Baseline</p>
+        </div>
+        <button onclick="document.getElementById('addLabSetModal').classList.add('hidden')" class="text-gray-400">✕</button>
+      </div>
+      <form onsubmit="window.saveNewLabSet(event)" class="space-y-3.5">
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-xs text-gray-500 mb-1">Date & Time *</label>
+            <input id="newLabDate" type="text" required class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-xs font-semibold" />
+          </div>
+          <div>
+            <label class="block text-xs text-gray-500 mb-1">Label (e.g., POD #1 / Post-Resus)</label>
+            <input id="newLabLabel" type="text" placeholder="Follow-up" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-xs" />
+          </div>
+        </div>
+        <div id="newLabInputsGrid" class="grid grid-cols-3 sm:grid-cols-4 gap-2"></div>
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-surg-600 text-white font-semibold text-sm">
+          ✓ Save Lab Column & Compare
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= ADD INVESTIGATION MODAL ================= -->
+  <div id="addInvxModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-ios-darkcard w-full max-w-md rounded-3xl border border-ios-border dark:border-ios-darkborder p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-bold text-base">Add Investigation / Imaging</h3>
+        <button onclick="document.getElementById('addInvxModal').classList.add('hidden')" class="text-gray-400">✕</button>
+      </div>
+      <form onsubmit="window.saveNewInvx(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">Quick Select Modality</label>
+          <div id="invxQuickModalities" class="flex flex-wrap gap-1.5 mb-2"></div>
+          <input id="newInvxName" type="text" required placeholder="e.g., Abdominal Ultrasound / CT Abdomen" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-xs font-semibold" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs text-gray-500 mb-1">Date</label>
+            <input id="newInvxDate" type="text" required class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-xs" />
+          </div>
+          <div>
+            <label class="block text-xs text-gray-500 mb-1">Status</label>
+            <select id="newInvxStatus" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-xs font-semibold">
+              <option value="Reviewed">Reviewed (Result Ready)</option>
+              <option value="Done">Done (Awaiting Report)</option>
+              <option value="Ordered">Ordered</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">Report Summary / Key Finding *</label>
+          <textarea id="newInvxFinding" rows="3" required placeholder="e.g., Distended non-compressible appendix 11mm with peri-appendiceal free fluid..." class="w-full p-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-xs"></textarea>
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-surg-600 text-white font-semibold text-sm">
+          ✓ Save Investigation to File
         </button>
       </form>
     </div>
@@ -518,9 +581,9 @@
           <input id="transferNewBed" type="text" placeholder="e.g., Bed 6" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
         </div>
         <div>
-          <label class="block text-xs text-gray-500 mb-1">Update Clinical Track</label>
+          <label class="block text-xs text-gray-500 mb-1">Clinical Track</label>
           <select id="transferNewTrack" class="w-full px-3 py-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm">
-            <option value="Conservative">Conservative / Observation</option>
+            <option value="Conservative">Conservative</option>
             <option value="Elective Prep">Elective OT Prep</option>
             <option value="Emergency OT">Emergency OT Prep</option>
             <option value="Post-Op">Post-Op</option>
@@ -558,11 +621,11 @@
           <input id="editProfileName" type="text" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
         </div>
         <div>
-          <label class="block text-xs text-gray-500 mb-1">Clinical Title</label>
+          <label class="block text-xs text-gray-500 mb-1">Clinical Role</label>
           <input id="editProfileRole" type="text" class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
         </div>
         <div>
-          <label class="block text-xs text-gray-500 mb-1">Avatar Image URL (Optional)</label>
+          <label class="block text-xs text-gray-500 mb-1">Avatar URL (Optional)</label>
           <input id="editProfileAvatar" type="url" placeholder="https://..." class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm" />
         </div>
         <button onclick="window.saveProfileChanges()" class="w-full py-2.5 rounded-xl bg-surg-600 text-white font-semibold text-sm">
@@ -579,7 +642,7 @@
         <h3 class="font-bold text-base">1-Click GitHub Pages Update</h3>
         <button onclick="document.getElementById('githubDeployModal').classList.add('hidden')" class="text-gray-400">✕</button>
       </div>
-      <p class="text-xs text-gray-500">Push this updated code directly to your live repository (<strong>Ahmedtalpe-lang/surgsync</strong>). Your token is saved locally on your device so you never have to re-enter it.</p>
+      <p class="text-xs text-gray-500">Pushes a clean copy of this application directly to <strong>Ahmedtalpe-lang/surgsync</strong>.</p>
       <div class="space-y-3">
         <div class="grid grid-cols-2 gap-2">
           <div>
@@ -596,14 +659,14 @@
           <input id="ghTokenInput" type="password" placeholder="ghp_..." class="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-xs font-mono" />
         </div>
         <button onclick="window.pushUpdateToGitHub()" class="w-full py-2.5 rounded-xl bg-surg-600 hover:bg-surg-700 text-white font-semibold text-sm">
-          Push Update to Live Site
+          Push Clean Update to Live Site
         </button>
         <div id="ghDeployLog" class="text-[11px] font-mono bg-gray-900 text-emerald-400 p-3 rounded-xl hidden max-h-36 overflow-y-auto"></div>
       </div>
     </div>
   </div>
 
-  <!-- ================= FIREBASE & APPLICATION LOGIC ================= -->
+  <!-- ================= APPLICATION LOGIC & FIREBASE SDK ================= -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import {
@@ -613,6 +676,8 @@
       createUserWithEmailAndPassword,
       GoogleAuthProvider,
       signInWithPopup,
+      signOut,
+      updateProfile,
       onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import {
@@ -625,7 +690,6 @@
       onSnapshot
     } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // Pre-configured with Dr. Ahmed's Firebase project (surgsync-hospital)
     const firebaseConfig = {
       apiKey: "AIzaSyDGFZej1f_OU_VxGBQVeP8dr8SNoyyQJLQ",
       authDomain: "surgsync-hospital.firebaseapp.com",
@@ -640,7 +704,21 @@
     const db = getFirestore(app);
     const WORKSPACE_PATH = "unit_d_workspace_v2";
 
-    // Default Built-In Templates (Including Exact 18-Step Open Appendectomy from User's Screenshots)
+    const LAB_PARAMETERS = [
+      { key: 'wbc', label: 'WBC', unit: '×10⁹/L' },
+      { key: 'hb', label: 'Hb', unit: 'g/dL' },
+      { key: 'plt', label: 'PLT', unit: '×10⁹/L' },
+      { key: 'urea', label: 'Urea', unit: 'mg/dL' },
+      { key: 'creat', label: 'Creat', unit: 'mg/dL' },
+      { key: 'na', label: 'Na⁺', unit: 'mEq/L' },
+      { key: 'k', label: 'K⁺', unit: 'mEq/L' },
+      { key: 'tbil', label: 'T.Bil', unit: 'mg/dL' },
+      { key: 'dbil', label: 'D.Bil', unit: 'mg/dL' },
+      { key: 'amylase', label: 'Amylase', unit: 'U/L' },
+      { key: 'inr', label: 'INR', unit: '' },
+      { key: 'crp', label: 'CRP', unit: 'mg/L' }
+    ];
+
     const DEFAULT_TEMPLATES = [
       {
         id: "tpl_open_appendectomy",
@@ -687,16 +765,16 @@
       },
       {
         id: "tpl_elective_hernia",
-        title: "Elective Hernia Repair (Inguinal / Paraumbilical)",
+        title: "Elective Hernia Repair",
         category: "Elective",
         steps: [
-          "Full surgical clerking & defect size examination",
+          "Full surgical clerking & defect examination",
           "CBC, U&E, RBS, Coagulation profile, Viral screen",
           "Review & hold anticoagulants/antiplatelets if applicable",
           "Chest X-Ray, ECG & Anesthesia fitness review",
-          "Confirm mesh availability (Prolene mesh & sutures)",
-          "Surgical site marking & consent form signed",
-          "NPO status confirmed & pre-op shaving/prep instructions"
+          "Confirm Prolene mesh & suture availability",
+          "Surgical site marking & informed consent signed",
+          "NPO status confirmed & pre-op antibiotics charted"
         ]
       },
       {
@@ -718,31 +796,64 @@
     ];
 
     const DEFAULT_QUICK_CHIPS = {
-      history: ["RIF Pain", "RUQ Pain", "Epigastric Pain", "Periumbilical -> RIF", "Nausea/Vomiting", "Anorexia", "Fever", "Constipation", "Jaundice", "HTN", "DM", "IHD", "On Anticoagulants", "Prev Surgery"],
-      exam: ["Conscious & Oriented", "Afebrile", "Hemodynamically Stable", "Pallor", "Jaundice", "Soft & Lax", "RIF Tenderness", "Rebound (+)", "Guarding", "RUQ Tenderness (Murphy +)", "Generalized Tenderness", "Distended Abdomen", "Irreducible Swelling"],
-      invx: ["Abd/Pelvis US", "Erect Chest X-Ray", "Supine Abd X-Ray", "CT Abd/Pelvis", "ECG", "Echocardiography", "MRCP", "eFAST", "Upper GI Endoscopy"]
+      history: [
+        "Presented with acute RIF pain migrating from periumbilical region.",
+        "Presented with colicky RUQ pain radiating to the back/shoulder.",
+        "Associated with anorexia, nausea, and vomiting.",
+        "History of low-grade fever.",
+        "No known medical comorbidities ( medically free ).",
+        "Known case of Hypertension on regular treatment.",
+        "Known case of Type 2 Diabetes Mellitus.",
+        "On oral anticoagulant/antiplatelet therapy.",
+        "No previous abdominal surgeries."
+      ],
+      exam: [
+        "On admission: Patient is conscious, alert, and oriented in time, place, and person.",
+        "Hemodynamically stable and afebrile.",
+        "No pallor, jaundice, or cyanosis.",
+        "Abdomen moves normally with respiration, soft and lax.",
+        "Localized tenderness and rebound tenderness in the Right Iliac Fossa (McBurney's point).",
+        "Positive Rovsing's sign.",
+        "RUQ tenderness with positive Murphy's sign.",
+        "Generalized abdominal tenderness with guarding/rigidity.",
+        "Hernia orifices are intact and free.",
+        "Digital rectal examination (PR) is unremarkable."
+      ],
+      invx: [
+        "Abdominal & Pelvic Ultrasound",
+        "Erect Chest X-Ray",
+        "Supine Abdominal X-Ray",
+        "CT Abdomen & Pelvis (with IV contrast)",
+        "12-Lead ECG",
+        "Echocardiography",
+        "MRCP",
+        "eFAST Scan"
+      ]
     };
 
-    // Global Application State
     window.appState = {
       authMode: 'signin',
-      currentDoctor: JSON.parse(localStorage.getItem('unitd_doctor_profile') || 'null'),
+      currentDoctor: null,
       unitPasscode: '2026',
       activeSection: 'MALE_WARD',
       subFilter: 'ALL',
       activePatientId: null,
       activePatientTab: 'OVERVIEW',
+      editingAdmissionPtId: null,
+      newRoundFormOpen: false,
+      draggedPrepIndex: null,
       patients: [],
       templates: [...DEFAULT_TEMPLATES],
       doctorsList: [],
-      quickChips: JSON.parse(localStorage.getItem('unitd_quick_chips') || JSON.stringify(DEFAULT_QUICK_CHIPS))
+      quickChips: JSON.parse(localStorage.getItem('unitd_quick_chips_v2') || JSON.stringify(DEFAULT_QUICK_CHIPS)),
+      listenersStarted: false
     };
 
-    // Restore saved GitHub credentials
     const savedGhToken = localStorage.getItem('unitd_gh_token');
-    if (savedGhToken) document.getElementById('ghTokenInput').value = savedGhToken;
+    if (savedGhToken && document.getElementById('ghTokenInput')) {
+      document.getElementById('ghTokenInput').value = savedGhToken;
+    }
 
-    // Dark Mode initialization
     if (localStorage.getItem('unitd_theme') === 'dark') {
       document.documentElement.classList.add('dark');
     }
@@ -752,102 +863,172 @@
       localStorage.setItem('unitd_theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
     };
 
-    // ================= AUTHENTICATION & DOCTOR PERSISTENCE =================
+    function formatShortDateTime(dateObj = new Date()) {
+      return dateObj.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) +
+        ' ' + dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // ================= 1. REAL FIREBASE AUTHENTICATION =================
     window.switchAuthMode = function(mode) {
       window.appState.authMode = mode;
       const isSignup = mode === 'signup';
       document.getElementById('signupExtraFields').classList.toggle('hidden', !isSignup);
-      document.getElementById('authSubmitBtn').textContent = isSignup ? 'Create Doctor Account' : 'Sign In to Workspace';
+      document.getElementById('authSubmitBtn').textContent = isSignup ? 'Register New Doctor Account' : 'Sign In';
       document.getElementById('tabSignInBtn').className = !isSignup
-        ? 'py-2 rounded-lg bg-white dark:bg-zinc-700 shadow-sm transition'
+        ? 'py-2 rounded-lg bg-white dark:bg-zinc-700 shadow-xs transition'
         : 'py-2 rounded-lg text-gray-500 dark:text-gray-400 transition';
       document.getElementById('tabSignUpBtn').className = isSignup
-        ? 'py-2 rounded-lg bg-white dark:bg-zinc-700 shadow-sm transition'
+        ? 'py-2 rounded-lg bg-white dark:bg-zinc-700 shadow-xs transition'
         : 'py-2 rounded-lg text-gray-500 dark:text-gray-400 transition';
+      document.getElementById('authErrorMsg').classList.add('hidden');
     };
 
-    async function ensureFirebaseConnection() {
-      if (!auth.currentUser) {
-        try {
-          await signInAnonymously(auth);
-        } catch (e) {
-          console.warn("Anonymous fallback note:", e.message);
-        }
-      }
+    function showAuthError(msg) {
+      const el = document.getElementById('authErrorMsg');
+      el.textContent = msg;
+      el.classList.remove('hidden');
     }
 
     window.handleGoogleSignIn = async function() {
-      const errEl = document.getElementById('authErrorMsg');
-      errEl.classList.add('hidden');
+      document.getElementById('authErrorMsg').classList.add('hidden');
       try {
         const provider = new GoogleAuthProvider();
-        const result = await signInWithPopup(auth, provider);
-        const u = result.user;
-        await finalizeDoctorLogin({
-          uid: u.uid,
-          email: u.email,
-          name: u.displayName || 'Dr. ' + (u.email ? u.email.split('@')[0] : 'Clinician'),
+        const res = await signInWithPopup(auth, provider);
+        const u = res.user;
+        await loadOrCreateDoctorProfile(u, {
+          name: u.displayName || ('Dr. ' + (u.email ? u.email.split('@')[0] : 'Surgeon')),
           role: 'GS Resident',
           avatar: u.photoURL || '',
-          approved: true
+          unitCode: ''
         });
       } catch (err) {
-        // Fallback if Google Provider is not yet toggled in Firebase Console
-        await ensureFirebaseConnection();
-        const email = prompt("Enter your Google Email to continue:") || "ahmed@unitd.ly";
-        const name = prompt("Enter your Display Name (e.g., Dr. Ahmed):") || "Dr. Ahmed";
-        const isAhmed = name.toLowerCase().includes('ahmed') || email.toLowerCase().includes('ahmed');
-        await finalizeDoctorLogin({
-          uid: 'doc_' + btoa(email).replace(/[^a-zA-Z0-9]/g, '').slice(0, 12),
-          email,
-          name,
-          role: isAhmed ? 'Unit Head / Admin' : 'GS Resident',
-          avatar: '',
-          approved: isAhmed
-        });
+        showAuthError("Google Sign-In error: " + (err.code === 'auth/operation-not-allowed' || err.code === 'auth/unauthorized-domain'
+          ? "Please enable Google Sign-In & authorize your domain (github.io) in Firebase Console -> Authentication -> Settings, or use Email & Password below."
+          : err.message));
       }
     };
 
     window.handleEmailAuth = async function(e) {
       e.preventDefault();
-      const email = document.getElementById('authEmail').value.trim();
-      const pass = document.getElementById('authPassword').value.trim();
+      document.getElementById('authErrorMsg').classList.add('hidden');
+      const email = document.getElementById('authEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('authPassword').value;
       const nameInput = document.getElementById('authDocName').value.trim();
       const roleInput = document.getElementById('authDocRole').value;
       const codeInput = document.getElementById('authUnitCode').value.trim();
+      const isSignup = window.appState.authMode === 'signup';
 
-      await ensureFirebaseConnection();
-      const docId = 'doc_' + btoa(email.toLowerCase()).replace(/[^a-zA-Z0-9]/g, '').slice(0, 14);
+      if (isSignup && !nameInput) {
+        showAuthError("Please enter your clinical display name (e.g., Dr. Ahmed).");
+        return;
+      }
 
-      let existingDoc = null;
+      const btn = document.getElementById('authSubmitBtn');
+      btn.disabled = true;
+      btn.textContent = "Authenticating...";
+
       try {
-        const snap = await getDoc(doc(db, WORKSPACE_PATH, "doctors", "items", docId));
-        if (snap.exists()) existingDoc = snap.data();
-      } catch (err) {}
+        if (isSignup) {
+          const cred = await createUserWithEmailAndPassword(auth, email, pass);
+          if (nameInput) {
+            await updateProfile(cred.user, { displayName: nameInput });
+          }
+          await loadOrCreateDoctorProfile(cred.user, {
+            name: nameInput,
+            role: roleInput,
+            avatar: '',
+            unitCode: codeInput,
+            passwordHash: btoa(pass)
+          });
+        } else {
+          const cred = await signInWithEmailAndPassword(auth, email, pass);
+          await loadOrCreateDoctorProfile(cred.user, {});
+        }
+      } catch (err) {
+        // If Email/Password provider is not yet enabled in Firebase Console, use verified Firestore account vault over Anonymous Auth
+        if (err.code === 'auth/operation-not-allowed' || err.code === 'auth/configuration-not-found') {
+          try {
+            await signInAnonymously(auth);
+            const vaultId = 'acct_' + btoa(email).replace(/[^a-zA-Z0-9]/g, '').slice(0, 16);
+            const snap = await getDoc(doc(db, WORKSPACE_PATH, "doctors", "items", vaultId));
 
-      const isAdminEmail = email.toLowerCase().includes('ahmed') || (nameInput && nameInput.toLowerCase().includes('ahmed'));
-      const codeValid = codeInput === window.appState.unitPasscode;
-
-      const profile = existingDoc || {
-        uid: docId,
-        email,
-        name: nameInput || ('Dr. ' + email.split('@')[0]),
-        role: isAdminEmail ? 'Unit Head / Admin' : (roleInput || 'GS Resident'),
-        avatar: '',
-        approved: isAdminEmail || codeValid
-      };
-
-      if (codeValid) profile.approved = true;
-      await finalizeDoctorLogin(profile);
+            if (isSignup) {
+              if (snap.exists()) {
+                showAuthError("An account with this email already exists. Please switch to Sign In.");
+              } else {
+                const isAdmin = email.includes('ahmed') || nameInput.toLowerCase().includes('ahmed');
+                const profile = {
+                  uid: vaultId,
+                  email,
+                  passwordHash: btoa(pass),
+                  name: nameInput,
+                  role: isAdmin ? 'Unit Head / Admin' : roleInput,
+                  avatar: '',
+                  approved: isAdmin || codeInput === window.appState.unitPasscode,
+                  createdAt: new Date().toISOString()
+                };
+                await setDoc(doc(db, WORKSPACE_PATH, "doctors", "items", vaultId), profile);
+                setAuthenticatedDoctor(profile);
+              }
+            } else {
+              if (!snap.exists()) {
+                showAuthError("No doctor account found with this email. Please click 'Create Doctor Account' first.");
+              } else {
+                const data = snap.data();
+                if (data.passwordHash && data.passwordHash !== btoa(pass)) {
+                  showAuthError("Incorrect password. Please try again.");
+                } else {
+                  setAuthenticatedDoctor(data);
+                }
+              }
+            }
+          } catch (innerErr) {
+            showAuthError("Authentication failed: " + innerErr.message);
+          }
+        } else if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
+          showAuthError("Invalid email or password. If you don't have an account, select 'Create Doctor Account'.");
+        } else if (err.code === 'auth/email-already-in-use') {
+          showAuthError("This email is already registered. Please switch to 'Sign In'.");
+        } else {
+          showAuthError(err.message);
+        }
+      } finally {
+        btn.disabled = false;
+        btn.textContent = window.appState.authMode === 'signup' ? 'Register New Doctor Account' : 'Sign In';
+      }
     };
 
-    async function finalizeDoctorLogin(profile) {
+    async function loadOrCreateDoctorProfile(firebaseUser, meta = {}) {
+      const uid = firebaseUser.uid;
+      const docRef = doc(db, WORKSPACE_PATH, "doctors", "items", uid);
+      const snap = await getDoc(docRef);
+
+      if (snap.exists()) {
+        const existing = snap.data();
+        setAuthenticatedDoctor(existing);
+      } else {
+        const email = (firebaseUser.email || '').toLowerCase();
+        const name = meta.name || firebaseUser.displayName || ('Dr. ' + (email ? email.split('@')[0] : 'Surgeon'));
+        const isAdmin = email.includes('ahmed') || name.toLowerCase().includes('ahmed');
+        const profile = {
+          uid,
+          email,
+          name,
+          role: isAdmin ? 'Unit Head / Admin' : (meta.role || 'GS Resident'),
+          avatar: meta.avatar || firebaseUser.photoURL || '',
+          approved: isAdmin || meta.unitCode === window.appState.unitPasscode,
+          createdAt: new Date().toISOString()
+        };
+        await setDoc(docRef, profile);
+        setAuthenticatedDoctor(profile);
+      }
+    }
+
+    function setAuthenticatedDoctor(profile) {
       window.appState.currentDoctor = profile;
-      localStorage.setItem('unitd_doctor_profile', JSON.stringify(profile));
-      try {
-        await setDoc(doc(db, WORKSPACE_PATH, "doctors", "items", profile.uid), profile, { merge: true });
-      } catch (e) {}
+      localStorage.setItem('unitd_authenticated_doctor', JSON.stringify(profile));
       updateAuthAndLockUI();
+      startFirestoreListeners();
     }
 
     function updateAuthAndLockUI() {
@@ -863,9 +1044,9 @@
 
       authScreen.classList.add('hidden');
 
-      // Update Sidebar Doctor Info
       document.getElementById('sidebarDocName').textContent = docProfile.name;
       document.getElementById('sidebarDocRole').textContent = docProfile.role;
+      document.getElementById('sidebarDocEmail').textContent = docProfile.email || '';
       const avatarImg = document.getElementById('sidebarDocAvatar');
       const initialsDiv = document.getElementById('sidebarDocInitials');
       if (docProfile.avatar) {
@@ -875,7 +1056,7 @@
       } else {
         avatarImg.classList.add('hidden');
         initialsDiv.classList.remove('hidden');
-        initialsDiv.textContent = docProfile.name.replace('Dr.', '').trim().slice(0, 2).toUpperCase();
+        initialsDiv.textContent = docProfile.name.replace(/^Dr\.?\s*/i, '').trim().slice(0, 2).toUpperCase() || 'DR';
       }
 
       if (!docProfile.approved) {
@@ -888,25 +1069,27 @@
 
     window.verifyUnitAccessCode = async function() {
       const input = document.getElementById('unlockCodeInput').value.trim();
-      if (input === window.appState.unitPasscode) {
+      if (input === window.appState.unitPasscode && window.appState.currentDoctor) {
         window.appState.currentDoctor.approved = true;
-        await finalizeDoctorLogin(window.appState.currentDoctor);
+        await setDoc(doc(db, WORKSPACE_PATH, "doctors", "items", window.appState.currentDoctor.uid), window.appState.currentDoctor, { merge: true });
+        setAuthenticatedDoctor(window.appState.currentDoctor);
       } else {
-        alert("Invalid Unit D code. Contact Dr. Ahmed or click 'Request Approval'.");
+        alert("Incorrect Unit D code.");
       }
     };
 
     window.requestAdminApproval = async function() {
       if (!window.appState.currentDoctor) return;
       window.appState.currentDoctor.requestedApproval = true;
-      await finalizeDoctorLogin(window.appState.currentDoctor);
-      document.getElementById('approvalStatusText').textContent = "Approval Request Sent to Dr. Ahmed";
-      document.getElementById('reqApprovalBtn').textContent = "Request Sent ✓";
+      await setDoc(doc(db, WORKSPACE_PATH, "doctors", "items", window.appState.currentDoctor.uid), window.appState.currentDoctor, { merge: true });
+      document.getElementById('approvalStatusText').textContent = "Request sent to Dr. Ahmed";
+      document.getElementById('reqApprovalBtn').textContent = "Approval Requested ✓";
     };
 
-    window.signOutDoctor = function() {
-      localStorage.removeItem('unitd_doctor_profile');
+    window.signOutDoctor = async function() {
+      localStorage.removeItem('unitd_authenticated_doctor');
       window.appState.currentDoctor = null;
+      try { await signOut(auth); } catch (e) {}
       window.toggleSidebar(false);
       updateAuthAndLockUI();
     };
@@ -926,28 +1109,39 @@
       d.name = document.getElementById('editProfileName').value.trim() || d.name;
       d.role = document.getElementById('editProfileRole').value.trim() || d.role;
       d.avatar = document.getElementById('editProfileAvatar').value.trim();
-      await finalizeDoctorLogin(d);
+      await setDoc(doc(db, WORKSPACE_PATH, "doctors", "items", d.uid), d, { merge: true });
+      setAuthenticatedDoctor(d);
       document.getElementById('profileModal').classList.add('hidden');
     };
 
     // ================= CLOUD REALTIME LISTENERS =================
-    async function initCloudSync() {
-      updateAuthAndLockUI();
-      try {
-        await ensureFirebaseConnection();
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            startFirestoreListeners();
-          }
-        });
-      } catch (e) {
-        console.warn("Running with local cache:", e);
-        renderMainView();
+    async function bootApplication() {
+      const cachedProfile = localStorage.getItem('unitd_authenticated_doctor');
+      if (cachedProfile) {
+        try {
+          window.appState.currentDoctor = JSON.parse(cachedProfile);
+          updateAuthAndLockUI();
+        } catch (e) {}
       }
+
+      onAuthStateChanged(auth, async (user) => {
+        if (user && !user.isAnonymous && !window.appState.currentDoctor) {
+          await loadOrCreateDoctorProfile(user, {});
+        } else if (user && window.appState.currentDoctor) {
+          startFirestoreListeners();
+        } else if (!user && window.appState.currentDoctor) {
+          try {
+            await signInAnonymously(auth);
+            startFirestoreListeners();
+          } catch (e) {}
+        }
+      });
     }
 
     function startFirestoreListeners() {
-      // 1. Listen to Patients
+      if (window.appState.listenersStarted) return;
+      window.appState.listenersStarted = true;
+
       onSnapshot(collection(db, WORKSPACE_PATH, "patients", "items"), (snap) => {
         const list = [];
         snap.forEach((d) => list.push(d.data()));
@@ -960,7 +1154,6 @@
         }
       });
 
-      // 2. Listen to Templates
       onSnapshot(collection(db, WORKSPACE_PATH, "templates", "items"), async (snap) => {
         if (snap.empty) {
           for (const t of DEFAULT_TEMPLATES) {
@@ -975,18 +1168,16 @@
         }
       });
 
-      // 3. Listen to Doctors Roster & Approvals
       onSnapshot(collection(db, WORKSPACE_PATH, "doctors", "items"), (snap) => {
         const docs = [];
         snap.forEach((d) => docs.push(d.data()));
         window.appState.doctorsList = docs;
 
-        // Check if current doctor was approved remotely by Admin
         if (window.appState.currentDoctor) {
           const match = docs.find(x => x.uid === window.appState.currentDoctor.uid);
           if (match && match.approved !== window.appState.currentDoctor.approved) {
             window.appState.currentDoctor.approved = match.approved;
-            localStorage.setItem('unitd_doctor_profile', JSON.stringify(window.appState.currentDoctor));
+            localStorage.setItem('unitd_authenticated_doctor', JSON.stringify(window.appState.currentDoctor));
             updateAuthAndLockUI();
           }
         }
@@ -995,24 +1186,15 @@
       });
     }
 
-    // ================= SIDEBAR & NAVIGATION =================
+    // ================= SIDEBAR & SECTION NAVIGATION =================
     window.toggleSidebar = function(show) {
-      const drawer = document.getElementById('sidebarDrawer');
-      const overlay = document.getElementById('sidebarOverlay');
-      if (show) {
-        drawer.classList.remove('-translate-x-full');
-        overlay.classList.remove('hidden');
-      } else {
-        drawer.classList.add('-translate-x-full');
-        overlay.classList.add('hidden');
-      }
+      document.getElementById('sidebarDrawer').classList.toggle('-translate-x-full', !show);
+      document.getElementById('sidebarOverlay').classList.toggle('hidden', !show);
     };
 
     window.toggleUnitDMenu = function() {
-      const menu = document.getElementById('unitDNavItems');
-      const chev = document.getElementById('unitDChevron');
-      menu.classList.toggle('hidden');
-      chev.classList.toggle('rotate-180');
+      document.getElementById('unitDNavItems').classList.toggle('hidden');
+      document.getElementById('unitDChevron').classList.toggle('rotate-180');
     };
 
     const SECTION_TITLES = {
@@ -1051,13 +1233,12 @@
       badge.textContent = pendingCount;
       badge.classList.toggle('hidden', pendingCount === 0);
 
-      // Highlight active nav button
       document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.className = 'nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800';
+        btn.className = 'nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800';
       });
       const activeBtn = document.getElementById('nav_' + window.appState.activeSection);
       if (activeBtn) {
-        activeBtn.className = 'nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition bg-surg-600 text-white shadow-xs';
+        activeBtn.className = 'nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition bg-surg-600 text-white shadow-xs';
       }
     }
 
@@ -1073,11 +1254,8 @@
       filterBar.classList.remove('hidden');
 
       let filters = ['ALL', 'Conservative', 'Elective Prep', 'Emergency OT', 'Post-Op'];
-      if (sec === 'TRAUMA_DAY') {
-        filters = ['ALL', 'Conservative', 'Emergency OT', 'Consultation'];
-      } else if (sec === 'ELECTIVE_OT' || sec === 'ARCHIVE') {
-        filters = ['ALL'];
-      }
+      if (sec === 'TRAUMA_DAY') filters = ['ALL', 'Conservative', 'Emergency OT', 'Consultation'];
+      else if (sec === 'ELECTIVE_OT' || sec === 'ARCHIVE') filters = ['ALL'];
 
       container.innerHTML = filters.map(f => {
         const active = window.appState.subFilter === f;
@@ -1095,7 +1273,7 @@
       renderMainView();
     };
 
-    // ================= MAIN VIEW RENDERER =================
+    // ================= MAIN BOARD VIEW =================
     window.renderMainView = function() {
       updateNavigationCounts();
       const sec = window.appState.activeSection;
@@ -1130,12 +1308,9 @@
 
       if (list.length === 0) {
         container.innerHTML = `
-          <div class="bg-white dark:bg-ios-darkcard rounded-3xl border border-ios-border dark:border-ios-darkborder p-10 text-center space-y-3">
-            <div class="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-zinc-800 text-gray-400 mx-auto flex items-center justify-center">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
-            </div>
-            <div class="font-semibold text-sm">No patients in ${SECTION_TITLES[sec]}</div>
-            <p class="text-xs text-gray-400 max-w-xs mx-auto">Tap "+ Add Patient" in the top bar to admit a patient or load a preparation checklist.</p>
+          <div class="bg-white dark:bg-ios-darkcard rounded-3xl border border-ios-border dark:border-ios-darkborder p-10 text-center space-y-2.5">
+            <div class="font-semibold text-sm text-gray-600 dark:text-gray-300">No patients in ${SECTION_TITLES[sec]}</div>
+            <p class="text-xs text-gray-400 max-w-xs mx-auto">Tap "+ Admit Patient" in the top right bar to clerk and admit a new case.</p>
           </div>
         `;
         return;
@@ -1147,12 +1322,10 @@
         const orderedCount = prepItems.filter(i => i.stage === 'ORDERED').length;
         const totalPrep = prepItems.length;
         const pct = totalPrep > 0 ? Math.round((readyCount / totalPrep) * 100) : 0;
-
-        const roundOrders = p.roundOrders || [];
-        const roundDone = roundOrders.filter(r => r.done).length;
+        const roundsCount = (p.dailyRounds || []).length;
 
         return `
-          <div onclick="window.openPatientSheet('${p.id}')" class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 shadow-2xs hover:border-surg-500 transition cursor-pointer space-y-3">
+          <div onclick="window.openPatientSheet('${p.id}')" class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 shadow-2xs hover:border-surg-500 transition cursor-pointer space-y-2.5">
             <div class="flex items-start justify-between gap-2">
               <div class="flex items-center gap-2.5">
                 <span class="px-2.5 py-1 rounded-xl bg-surg-50 dark:bg-emerald-950/60 text-surg-700 dark:text-emerald-300 font-bold text-xs">${p.bed || 'Bed'}</span>
@@ -1172,14 +1345,12 @@
               }">${p.track || 'Conservative'}</span>
             </div>
 
-            ${p.procedure ? `<div class="text-xs text-gray-500 dark:text-gray-400">Procedure: <strong class="text-gray-700 dark:text-gray-200">${p.procedure}</strong></div>` : ''}
-
             <div class="flex items-center justify-between text-[11px] text-gray-500 pt-1 border-t border-gray-100 dark:border-zinc-800">
               <div class="flex items-center gap-3">
-                ${totalPrep > 0 ? `<span>Prep: <strong class="text-surg-600">${readyCount}/${totalPrep} Ready</strong> ${orderedCount > 0 ? `(${orderedCount} Ordered)` : ''}</span>` : '<span>No prep checklist loaded</span>'}
-                ${roundOrders.length > 0 ? `<span>• Round: <strong>${roundDone}/${roundOrders.length}</strong></span>` : ''}
+                ${totalPrep > 0 ? `<span>Prep: <strong class="text-surg-600">${readyCount}/${totalPrep} Ready</strong> ${orderedCount > 0 ? `(${orderedCount} Ordered)` : ''}</span>` : '<span>Clinical Record Saved</span>'}
+                ${roundsCount > 0 ? `<span>• Rounds Logged: <strong>${roundsCount}</strong></span>` : ''}
               </div>
-              <span class="text-surg-600 font-semibold">Open ➔</span>
+              <span class="text-surg-600 font-semibold">Open File ➔</span>
             </div>
 
             ${totalPrep > 0 ? `
@@ -1192,35 +1363,137 @@
       }).join('');
     };
 
-    // ================= ADD / TRANSFER PATIENT =================
-    window.openAddPatientModal = function() {
-      const sec = window.appState.activeSection;
-      const secSelect = document.getElementById('newPtSection');
-      if (['MALE_WARD', 'FEMALE_WARD', 'ICU', 'TRAUMA_DAY'].includes(sec)) {
-        secSelect.value = sec;
+    // ================= 2. ADMISSION CLERKING BUILDER vs FIXED PATIENT SUMMARY =================
+    window.openAdmissionModal = function(editPtId = null) {
+      window.appState.editingAdmissionPtId = editPtId;
+      const existingPt = editPtId ? window.appState.patients.find(p => p.id === editPtId) : null;
+
+      document.getElementById('admissionModalTitle').textContent = existingPt
+        ? `Edit Admission Clerking — ${existingPt.name}`
+        : 'Admit Patient & Baseline Clerking';
+
+      document.getElementById('admBed').value = existingPt?.bed || '';
+      document.getElementById('admName').value = existingPt?.name || '';
+      document.getElementById('admAgeSex').value = existingPt?.ageSex || '';
+      document.getElementById('admSection').value = existingPt?.section || (['MALE_WARD', 'FEMALE_WARD', 'ICU', 'TRAUMA_DAY'].includes(window.appState.activeSection) ? window.appState.activeSection : 'MALE_WARD');
+      document.getElementById('admTrack').value = existingPt?.track || 'Conservative';
+      document.getElementById('admBloodGroup').value = existingPt?.bloodGroup || 'Pending';
+      document.getElementById('admViral').value = existingPt?.viralScreen || 'Pending';
+      document.getElementById('admDiagnosis').value = existingPt?.diagnosis || '';
+      document.getElementById('admProcedure').value = existingPt?.procedure || '';
+      document.getElementById('admHistoryText').value = existingPt?.historyText || '';
+      document.getElementById('admExamText').value = existingPt?.examText || 'On admission: Patient is conscious, alert, and oriented, hemodynamically stable and afebrile.';
+
+      // Render Quick Sentence Chips inside Admission Modal
+      renderAdmissionChipSelectors();
+
+      // Baseline Labs Inputs (shown on new admission)
+      document.getElementById('admBaselineLabsSection').classList.toggle('hidden', !!existingPt);
+      document.getElementById('admTemplateSection').classList.toggle('hidden', !!existingPt);
+
+      if (!existingPt) {
+        document.getElementById('admLabInputsGrid').innerHTML = LAB_PARAMETERS.map(lf => `
+          <div class="p-2 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700">
+            <label class="block text-[10px] font-bold text-gray-400">${lf.label}</label>
+            <input type="text" id="admLab_${lf.key}" placeholder="—" class="w-full bg-transparent text-xs font-bold focus:outline-none" />
+          </div>
+        `).join('');
+
+        document.getElementById('admTemplateSelect').innerHTML = `<option value="">None (Load later)</option>` +
+          window.appState.templates.map(t => `<option value="${t.id}">${t.title} (${t.category})</option>`).join('');
       }
-      const tplSelect = document.getElementById('newPtTemplateSelect');
-      tplSelect.innerHTML = `<option value="">None (Load later)</option>` +
-        window.appState.templates.map(t => `<option value="${t.id}">${t.title} (${t.category})</option>`).join('');
 
-      document.getElementById('addPatientModal').classList.remove('hidden');
+      document.getElementById('admissionModal').classList.remove('hidden');
     };
 
-    window.closeAddPatientModal = function() {
-      document.getElementById('addPatientModal').classList.add('hidden');
+    function renderAdmissionChipSelectors() {
+      const hChips = window.appState.quickChips.history || [];
+      const eChips = window.appState.quickChips.exam || [];
+
+      document.getElementById('admHistoryChipsContainer').innerHTML = hChips.map((c, idx) => `
+        <button type="button" onclick="window.appendSentenceToField('admHistoryText', ${idx}, 'history')" class="px-2.5 py-1 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 hover:border-surg-500 text-[11px] font-medium text-left transition">
+          + ${c}
+        </button>
+      `).join('');
+
+      document.getElementById('admExamChipsContainer').innerHTML = eChips.map((c, idx) => `
+        <button type="button" onclick="window.appendSentenceToField('admExamText', ${idx}, 'exam')" class="px-2.5 py-1 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 hover:border-surg-500 text-[11px] font-medium text-left transition">
+          + ${c}
+        </button>
+      `).join('');
+    }
+
+    window.appendSentenceToField = function(textareaId, chipIdx, category) {
+      const chipText = window.appState.quickChips[category][chipIdx];
+      const box = document.getElementById(textareaId);
+      if (!box || !chipText) return;
+      const current = box.value.trim();
+      box.value = current ? (current + ' ' + chipText) : chipText;
     };
 
-    window.saveNewPatient = async function(e) {
+    window.addCustomQuickChip = function(category) {
+      const label = prompt(`Enter new clinical phrase/option for ${category}:`);
+      if (!label || !label.trim()) return;
+      window.appState.quickChips[category].push(label.trim());
+      localStorage.setItem('unitd_quick_chips_v2', JSON.stringify(window.appState.quickChips));
+      renderAdmissionChipSelectors();
+    };
+
+    window.closeAdmissionModal = function() {
+      document.getElementById('admissionModal').classList.add('hidden');
+      window.appState.editingAdmissionPtId = null;
+    };
+
+    window.saveAdmissionClerking = async function(e) {
       e.preventDefault();
-      const bed = document.getElementById('newPtBed').value.trim();
-      const name = document.getElementById('newPtName').value.trim();
-      const ageSex = document.getElementById('newPtAgeSex').value.trim();
-      const section = document.getElementById('newPtSection').value;
-      const track = document.getElementById('newPtTrack').value;
-      const diagnosis = document.getElementById('newPtDiagnosis').value.trim();
-      const procedure = document.getElementById('newPtProcedure').value.trim();
-      const tplId = document.getElementById('newPtTemplateSelect').value;
+      const editId = window.appState.editingAdmissionPtId;
+      const existingPt = editId ? window.appState.patients.find(p => p.id === editId) : null;
 
+      const bed = document.getElementById('admBed').value.trim();
+      const name = document.getElementById('admName').value.trim();
+      const ageSex = document.getElementById('admAgeSex').value.trim();
+      const section = document.getElementById('admSection').value;
+      const track = document.getElementById('admTrack').value;
+      const bloodGroup = document.getElementById('admBloodGroup').value;
+      const viralScreen = document.getElementById('admViral').value;
+      const diagnosis = document.getElementById('admDiagnosis').value.trim();
+      const procedure = document.getElementById('admProcedure').value.trim();
+      const historyText = document.getElementById('admHistoryText').value.trim();
+      const examText = document.getElementById('admExamText').value.trim();
+
+      if (existingPt) {
+        Object.assign(existingPt, {
+          bed, name, ageSex, section, track, bloodGroup, viralScreen, diagnosis, procedure, historyText, examText
+        });
+        await savePatientRecord(existingPt);
+        window.closeAdmissionModal();
+        return;
+      }
+
+      // Collect Baseline Labs
+      const baselineValues = {};
+      let hasAnyBaselineLab = false;
+      LAB_PARAMETERS.forEach(lf => {
+        const val = document.getElementById('admLab_' + lf.key)?.value.trim() || '';
+        if (val) {
+          baselineValues[lf.key] = val;
+          hasAnyBaselineLab = true;
+        }
+      });
+
+      const labSets = [];
+      if (hasAnyBaselineLab) {
+        labSets.push({
+          id: 'lab_' + Date.now(),
+          label: 'Admission Baseline',
+          date: formatShortDateTime(),
+          by: window.appState.currentDoctor?.name || 'Dr.',
+          values: baselineValues
+        });
+      }
+
+      // Check if a Preparation Template was selected
+      const tplId = document.getElementById('admTemplateSelect').value;
       let prepItems = [];
       if (tplId) {
         const tpl = window.appState.templates.find(t => t.id === tplId);
@@ -1242,30 +1515,22 @@
         ageSex,
         section,
         track,
+        bloodGroup,
+        viralScreen,
         diagnosis,
-        procedure,
-        createdAt: new Date().toISOString(),
-        createdBy: window.appState.currentDoctor?.name || 'Doctor',
-        historyChips: [],
-        historyNote: '',
-        examChips: [],
-        examNote: '',
-        bloodGroup: '',
-        viralScreen: 'Pending',
-        labs: {},
-        prevLabs: {},
+        procedure: procedure || (tplId ? (window.appState.templates.find(t => t.id === tplId)?.title || '') : ''),
+        admittedAt: formatShortDateTime(),
+        admittedBy: window.appState.currentDoctor?.name || 'Dr.',
+        historyText: historyText || 'No history narrative recorded on admission.',
+        examText: examText || 'On admission: Patient is conscious, alert, and oriented, hemodynamically stable.',
+        labSets,
         invxList: [],
         prepItems,
-        dietStatus: 'NPO',
-        bowelStatus: '',
-        drains: { ng: '', foley: '', drain1: '', wound: 'Clean & Dry' },
-        roundNote: '',
-        roundOrders: []
+        dailyRounds: []
       };
 
       await savePatientRecord(newPt);
-      window.closeAddPatientModal();
-      e.target.reset();
+      window.closeAdmissionModal();
       window.openPatientSheet(newPt.id);
     };
 
@@ -1283,9 +1548,10 @@
       }
     }
 
-    // ================= PATIENT FULL SHEET & 3 TABS =================
+    // ================= PATIENT SHEET & FIXED CLINICAL FILE VIEW =================
     window.openPatientSheet = function(ptId) {
       window.appState.activePatientId = ptId;
+      window.appState.newRoundFormOpen = false;
       document.getElementById('patientDetailSheet').classList.remove('hidden');
       window.switchPatientTab(window.appState.activePatientTab || 'OVERVIEW');
     };
@@ -1323,161 +1589,186 @@
       const tab = window.appState.activePatientTab;
 
       if (tab === 'OVERVIEW') {
-        renderPatientOverviewTab(pt, body);
+        renderFixedPatientOverviewTab(pt, body);
       } else if (tab === 'PREP') {
-        renderPatientPrepTab(pt, body);
+        renderReorderablePrepTab(pt, body);
       } else if (tab === 'ROUND') {
-        renderPatientRoundTab(pt, body);
+        renderDatedRoundsTab(pt, body);
       }
     }
 
-    // --- TAB 1: OVERVIEW, H&P, LAB MATRIX & INVX ---
-    function renderPatientOverviewTab(pt, container) {
-      const hChips = window.appState.quickChips.history || [];
-      const eChips = window.appState.quickChips.exam || [];
-      const iChips = window.appState.quickChips.invx || [];
-      const labs = pt.labs || {};
-      const prevLabs = pt.prevLabs || {};
+    // --- TAB 1: FIXED CLINICAL RECORD + CUMULATIVE LAB FLOWSHEET + FIXED INVX LOG ---
+    function renderFixedPatientOverviewTab(pt, container) {
+      // Ensure backwards compatibility if old patient record had single `labs` object
+      let labSets = pt.labSets || [];
+      if (labSets.length === 0 && pt.labs && Object.keys(pt.labs).length > 0) {
+        labSets = [{
+          id: 'legacy_baseline',
+          label: 'Admission Baseline',
+          date: pt.admittedAt || 'Baseline',
+          by: pt.createdBy || 'Dr.',
+          values: pt.labs
+        }];
+      }
 
-      const labFields = [
-        { key: 'wbc', label: 'WBC' },
-        { key: 'hb', label: 'Hb' },
-        { key: 'plt', label: 'PLT' },
-        { key: 'urea', label: 'Urea' },
-        { key: 'creat', label: 'Creat' },
-        { key: 'na', label: 'Na+' },
-        { key: 'k', label: 'K+' },
-        { key: 'tbil', label: 'T.Bil' },
-        { key: 'dbil', label: 'D.Bil' },
-        { key: 'amylase', label: 'Amylase' },
-        { key: 'inr', label: 'INR' },
-        { key: 'crp', label: 'CRP' }
-      ];
+      const historyDisplay = pt.historyText || ((pt.historyChips || []).join(', ') + ' ' + (pt.historyNote || '')).trim() || 'No admission history recorded.';
+      const examDisplay = pt.examText || ((pt.examChips || []).join(', ') + ' ' + (pt.examNote || '')).trim() || 'Conscious, oriented, hemodynamically stable.';
 
       container.innerHTML = `
-        <!-- Quick Track & Procedure Bar -->
-        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 flex flex-wrap items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-gray-400">Track:</span>
-            <select onchange="window.updatePtField('track', this.value)" class="px-2.5 py-1 rounded-xl bg-gray-100 dark:bg-zinc-800 text-xs font-semibold">
-              ${['Conservative', 'Elective Prep', 'Emergency OT', 'Post-Op', 'Consultation'].map(t =>
-                `<option value="${t}" ${pt.track === t ? 'selected' : ''}>${t}</option>`
-              ).join('')}
-            </select>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-gray-400">Blood Group:</span>
-            <select onchange="window.updatePtField('bloodGroup', this.value)" class="px-2.5 py-1 rounded-xl bg-gray-100 dark:bg-zinc-800 text-xs font-bold">
-              ${['', 'O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'].map(bg =>
-                `<option value="${bg}" ${pt.bloodGroup === bg ? 'selected' : ''}>${bg || 'Select'}</option>`
-              ).join('')}
-            </select>
-            <select onchange="window.updatePtField('viralScreen', this.value)" class="px-2.5 py-1 rounded-xl bg-gray-100 dark:bg-zinc-800 text-xs font-semibold">
-              ${['Pending', 'Negative (-)', 'HBsAg (+)', 'HCV (+)', 'HIV (+)'].map(vs =>
-                `<option value="${vs}" ${pt.viralScreen === vs ? 'selected' : ''}>Viral: ${vs}</option>`
-              ).join('')}
-            </select>
-          </div>
-        </div>
-
-        <!-- 1. History & Comorbidities (Tap Chips) -->
-        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="font-bold text-sm">1. History & Comorbidities</h4>
-            <div class="flex gap-1.5">
-              <button onclick="window.startVoiceDictation('historyNote')" class="px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-zinc-800 text-xs font-medium">🎤 Dictate</button>
-              <button onclick="window.addCustomQuickChip('history')" class="px-2.5 py-1 rounded-lg bg-surg-50 dark:bg-emerald-950/50 text-surg-600 text-xs font-semibold">+ Chip</button>
-            </div>
-          </div>
-          <div class="flex flex-wrap gap-1.5">
-            ${hChips.map(c => {
-              const active = (pt.historyChips || []).includes(c);
-              return `<button onclick="window.togglePtChip('historyChips', '${c.replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-xl text-xs font-medium transition ${
-                active ? 'bg-surg-600 text-white' : 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300'
-              }">${c}</button>`;
-            }).join('')}
-          </div>
-          <textarea onchange="window.updatePtField('historyNote', this.value)" rows="2" placeholder="Additional history notes (duration, onset, medications)..." class="w-full p-2.5 rounded-xl bg-gray-50 dark:bg-zinc-800/70 border border-gray-200 dark:border-zinc-700 text-xs focus:outline-none">${pt.historyNote || ''}</textarea>
-        </div>
-
-        <!-- 2. Clinical Examination (Tap Chips) -->
-        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="font-bold text-sm">2. Physical Examination</h4>
-            <div class="flex gap-1.5">
-              <button onclick="window.startVoiceDictation('examNote')" class="px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-zinc-800 text-xs font-medium">🎤 Dictate</button>
-              <button onclick="window.addCustomQuickChip('exam')" class="px-2.5 py-1 rounded-lg bg-surg-50 dark:bg-emerald-950/50 text-surg-600 text-xs font-semibold">+ Chip</button>
-            </div>
-          </div>
-          <div class="flex flex-wrap gap-1.5">
-            ${eChips.map(c => {
-              const active = (pt.examChips || []).includes(c);
-              return `<button onclick="window.togglePtChip('examChips', '${c.replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-xl text-xs font-medium transition ${
-                active ? 'bg-surg-600 text-white' : 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300'
-              }">${c}</button>`;
-            }).join('')}
-          </div>
-          <textarea onchange="window.updatePtField('examNote', this.value)" rows="2" placeholder="Local exam, PR exam, hernia orifices, vitals..." class="w-full p-2.5 rounded-xl bg-gray-50 dark:bg-zinc-800/70 border border-gray-200 dark:border-zinc-700 text-xs focus:outline-none">${pt.examNote || ''}</textarea>
-        </div>
-
-        <!-- 3. Smart Lab Matrix -->
-        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="font-bold text-sm">3. Laboratory Matrix</h4>
-            <span class="text-[11px] text-gray-400">Auto-saves & tracks previous values</span>
-          </div>
-          <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
-            ${labFields.map(lf => {
-              const curr = labs[lf.key] || '';
-              const prev = prevLabs[lf.key] || '';
-              return `
-                <div class="p-2 rounded-xl bg-gray-50 dark:bg-zinc-800/70 border border-gray-200 dark:border-zinc-700">
-                  <div class="flex items-center justify-between text-[11px] text-gray-500 mb-0.5">
-                    <span class="font-semibold">${lf.label}</span>
-                    ${prev ? `<span class="text-[10px] text-gray-400">Prev: ${prev}</span>` : ''}
-                  </div>
-                  <input type="text" value="${curr}" onchange="window.updatePtLab('${lf.key}', this.value)" placeholder="—" class="w-full bg-transparent font-bold text-sm focus:outline-none" />
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </div>
-
-        <!-- 4. Investigations (Invx) Tracker -->
-        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="font-bold text-sm">4. Investigations (Invx)</h4>
-            <button onclick="window.addCustomQuickChip('invx')" class="px-2.5 py-1 rounded-lg bg-surg-50 dark:bg-emerald-950/50 text-surg-600 text-xs font-semibold">+ Modality</button>
-          </div>
-          <div class="flex flex-wrap gap-1.5">
-            ${iChips.map(inv => `
-              <button onclick="window.addPtInvx('${inv.replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-xl bg-gray-100 dark:bg-zinc-800 hover:bg-surg-50 text-xs font-medium">+ ${inv}</button>
-            `).join('')}
-          </div>
-          <div class="space-y-2 pt-1">
-            ${(pt.invxList || []).map((item, idx) => `
-              <div class="p-2.5 rounded-xl bg-gray-50 dark:bg-zinc-800/80 border border-gray-200 dark:border-zinc-700 space-y-1.5">
-                <div class="flex items-center justify-between">
-                  <span class="font-bold text-xs">${item.name}</span>
-                  <div class="flex items-center gap-1.5">
-                    <button onclick="window.cycleInvxStatus(${idx})" class="px-2 py-0.5 rounded-lg text-[11px] font-semibold ${
-                      item.status === 'Reviewed' ? 'bg-emerald-500/15 text-emerald-600' :
-                      item.status === 'Done' ? 'bg-blue-500/15 text-blue-600' :
-                      'bg-amber-500/15 text-amber-600'
-                    }">${item.status}</button>
-                    <button onclick="window.removePtInvx(${idx})" class="text-gray-400 hover:text-red-500 text-xs px-1">✕</button>
-                  </div>
-                </div>
-                <input type="text" value="${item.finding || ''}" onchange="window.updateInvxFinding(${idx}, this.value)" placeholder="Write key finding (e.g., Target sign, free fluid, CBD 8mm)..." class="w-full bg-white dark:bg-zinc-900 px-2.5 py-1.5 rounded-lg text-xs border border-gray-200 dark:border-zinc-700 focus:outline-none" />
+        <!-- FIXED ADMISSION SUMMARY CARD (READ-ONLY MEDICAL CHART VIEW) -->
+        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-5 space-y-4 shadow-2xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 dark:border-zinc-800 pb-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-surg-600">Admission Clinical Record</span>
+                <span class="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800 font-semibold">${pt.track || 'Conservative'}</span>
               </div>
-            `).join('')}
+              <p class="text-[11px] text-gray-400 mt-0.5">Admitted ${pt.admittedAt || 'Recently'} by ${pt.admittedBy || pt.createdBy || 'Unit D Doctor'}</p>
+            </div>
+            <button onclick="window.openAdmissionModal('${pt.id}')" class="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 text-xs font-semibold flex items-center gap-1">
+              <span>✎ Edit Clerking</span>
+            </button>
           </div>
+
+          <!-- Fixed Badges Row -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-gray-50 dark:bg-zinc-800/60">
+              <span class="block text-[10px] text-gray-400 uppercase">Diagnosis</span>
+              <strong class="text-gray-800 dark:text-gray-100">${pt.diagnosis || '—'}</strong>
+            </div>
+            <div class="p-2.5 rounded-xl bg-gray-50 dark:bg-zinc-800/60">
+              <span class="block text-[10px] text-gray-400 uppercase">Procedure</span>
+              <strong class="text-gray-800 dark:text-gray-100">${pt.procedure || 'Conservative / TBD'}</strong>
+            </div>
+            <div class="p-2.5 rounded-xl bg-gray-50 dark:bg-zinc-800/60">
+              <span class="block text-[10px] text-gray-400 uppercase">Blood Group</span>
+              <strong class="text-surg-600 font-bold">${pt.bloodGroup || 'Pending'}</strong>
+            </div>
+            <div class="p-2.5 rounded-xl bg-gray-50 dark:bg-zinc-800/60">
+              <span class="block text-[10px] text-gray-400 uppercase">Viral Screen</span>
+              <strong class="${(pt.viralScreen || '').includes('+') ? 'text-red-600' : 'text-gray-800 dark:text-gray-100'}">${pt.viralScreen || 'Pending'}</strong>
+            </div>
+          </div>
+
+          <!-- Fixed History Narrative -->
+          <div class="space-y-1">
+            <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">History & Presentation</div>
+            <p class="text-sm leading-relaxed text-gray-800 dark:text-gray-200 bg-gray-50/70 dark:bg-zinc-800/40 p-3 rounded-xl border border-gray-100 dark:border-zinc-800">${historyDisplay}</p>
+          </div>
+
+          <!-- Fixed Baseline Physical Examination Sentence -->
+          <div class="space-y-1">
+            <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Baseline Physical Examination (On Admission)</div>
+            <p class="text-sm leading-relaxed text-gray-800 dark:text-gray-200 bg-gray-50/70 dark:bg-zinc-800/40 p-3 rounded-xl border border-gray-100 dark:border-zinc-800">${examDisplay}</p>
+          </div>
+        </div>
+
+        <!-- CUMULATIVE LABORATORY FLOWSHEET (BASELINE vs FOLLOW-UPS) -->
+        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-5 space-y-3 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="font-bold text-sm">Cumulative Laboratory Flowsheet</h4>
+              <p class="text-[11px] text-gray-400">Baseline admission labs vs. serial follow-up investigations</p>
+            </div>
+            <button onclick="window.openAddLabSetModal()" class="px-3 py-1.5 rounded-xl bg-surg-600 hover:bg-surg-700 text-white text-xs font-semibold shadow-2xs">
+              + Add Follow-Up Labs
+            </button>
+          </div>
+
+          ${labSets.length === 0 ? `
+            <div class="p-6 rounded-xl bg-gray-50 dark:bg-zinc-800/40 text-center text-xs text-gray-400">
+              No laboratory sets recorded yet. Tap "+ Add Follow-Up Labs" to enter baseline or serial labs.
+            </div>
+          ` : `
+            <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-zinc-800">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-gray-50 dark:bg-zinc-800/80 border-b border-gray-200 dark:border-zinc-700">
+                    <th class="py-2.5 px-3 font-bold text-gray-600 dark:text-gray-300 sticky left-0 bg-gray-50 dark:bg-zinc-800">Parameter</th>
+                    ${labSets.map((set, idx) => `
+                      <th class="py-2 px-3 min-w-[120px] border-l border-gray-200 dark:border-zinc-700">
+                        <div class="font-bold ${idx === 0 ? 'text-surg-600 dark:text-emerald-400' : 'text-gray-800 dark:text-gray-100'}">${idx === 0 ? 'Admission Baseline' : (set.label || `Follow-Up #${idx}`)}</div>
+                        <div class="text-[10px] font-normal text-gray-400">${set.date || ''}</div>
+                      </th>
+                    `).join('')}
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 dark:divide-zinc-800">
+                  ${LAB_PARAMETERS.map(param => {
+                    const hasValueInAnySet = labSets.some(s => s.values && s.values[param.key]);
+                    if (!hasValueInAnySet) return '';
+                    return `
+                      <tr>
+                        <td class="py-2 px-3 font-bold text-gray-700 dark:text-gray-300 sticky left-0 bg-white dark:bg-ios-darkcard">
+                          ${param.label} <span class="text-[10px] font-normal text-gray-400">${param.unit}</span>
+                        </td>
+                        ${labSets.map((set, idx) => {
+                          const val = set.values?.[param.key] || '—';
+                          const prevVal = idx > 0 ? parseFloat(labSets[idx - 1].values?.[param.key]) : NaN;
+                          const currNum = parseFloat(val);
+                          let trendHtml = '';
+                          if (!isNaN(prevVal) && !isNaN(currNum) && currNum !== prevVal) {
+                            const isUp = currNum > prevVal;
+                            trendHtml = isUp
+                              ? `<span class="text-[10px] font-bold text-red-500 ml-1">↑</span>`
+                              : `<span class="text-[10px] font-bold text-emerald-600 ml-1">↓</span>`;
+                          }
+                          return `<td class="py-2 px-3 font-semibold border-l border-gray-100 dark:border-zinc-800">${val}${trendHtml}</td>`;
+                        }).join('')}
+                      </tr>
+                    `;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          `}
+        </div>
+
+        <!-- FIXED INVESTIGATIONS & IMAGING LOG -->
+        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-5 space-y-3 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="font-bold text-sm">Investigations & Imaging Log (Invx)</h4>
+              <p class="text-[11px] text-gray-400">Fixed record of ultrasound, CT, X-rays & consultations</p>
+            </div>
+            <button onclick="window.openAddInvxModal()" class="px-3 py-1.5 rounded-xl bg-surg-600 hover:bg-surg-700 text-white text-xs font-semibold shadow-2xs">
+              + Add Investigation
+            </button>
+          </div>
+
+          ${(pt.invxList || []).length === 0 ? `
+            <div class="p-6 rounded-xl bg-gray-50 dark:bg-zinc-800/40 text-center text-xs text-gray-400">
+              No imaging or investigations logged yet.
+            </div>
+          ` : `
+            <div class="space-y-2">
+              ${(pt.invxList || []).map((item, idx) => `
+                <div class="p-3.5 rounded-xl bg-gray-50 dark:bg-zinc-800/60 border border-gray-200 dark:border-zinc-700 space-y-1">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="font-bold text-xs text-gray-800 dark:text-gray-100">${item.name}</span>
+                      <span class="text-[10px] text-gray-400">${item.date || ''}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <button onclick="window.cycleInvxStatus(${idx})" class="px-2 py-0.5 rounded-lg text-[10px] font-bold ${
+                        item.status === 'Reviewed' ? 'bg-emerald-500/15 text-emerald-600' :
+                        item.status === 'Done' ? 'bg-blue-500/15 text-blue-600' :
+                        'bg-amber-500/15 text-amber-600'
+                      }">${item.status}</button>
+                      <button onclick="window.removePtInvx(${idx})" class="text-gray-300 hover:text-red-500 text-xs px-1">✕</button>
+                    </div>
+                  </div>
+                  <p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">${item.finding || 'Pending report.'}</p>
+                </div>
+              `).join('')}
+            </div>
+          `}
         </div>
       `;
     }
 
-    // --- TAB 2: 3-STAGE PREPARATION PIPELINE (Matches User's iPhone Screenshots + 3-List Flow) ---
-    function renderPatientPrepTab(pt, container) {
+    // --- TAB 2: REORDERABLE PREPARATION CHECKLIST (WITH UP/DOWN & DRAG-AND-DROP) ---
+    function renderReorderablePrepTab(pt, container) {
       const items = pt.prepItems || [];
       const todoItems = items.filter(i => i.stage === 'TODO');
       const orderedItems = items.filter(i => i.stage === 'ORDERED');
@@ -1486,7 +1777,7 @@
       document.getElementById('prepCounterBadge').textContent = `${readyItems.length}/${items.length} Ready`;
       document.getElementById('prepOrderedBadge').textContent = `${orderedItems.length} Ordered`;
 
-      const renderStageSection = (title, stageKey, stageItems, badgeClass) => `
+      const renderStageBlock = (title, stageKey, stageItems, badgeClass) => `
         <div class="space-y-2">
           <div class="flex items-center justify-between px-1">
             <span class="text-xs font-bold uppercase tracking-wider text-gray-500">${title}</span>
@@ -1494,49 +1785,63 @@
           </div>
           ${stageItems.length === 0 ? `
             <div class="bg-white/60 dark:bg-ios-darkcard/50 rounded-2xl border border-dashed border-gray-200 dark:border-zinc-800 p-4 text-center text-xs text-gray-400">
-              No items in ${title}
+              No steps in ${title}
             </div>
-          ` : stageItems.map(item => `
-            <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder px-4 py-3 flex items-center justify-between gap-3 shadow-2xs">
-              <div class="flex-1 min-w-0">
-                <div class="text-sm font-medium ${item.stage === 'READY' ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-800 dark:text-gray-100'}">${item.text}</div>
-                ${item.updatedBy ? `<div class="text-[11px] text-surg-600 dark:text-emerald-400 mt-0.5">${item.stage === 'ORDERED' ? 'Ordered' : 'Checked'} by ${item.updatedBy} • ${item.updatedAt}</div>` : ''}
+          ` : stageItems.map(item => {
+            const globalIdx = items.findIndex(x => x.id === item.id);
+            return `
+              <div draggable="true"
+                   ondragstart="window.onPrepDragStart(event, ${globalIdx})"
+                   ondragover="window.onPrepDragOver(event)"
+                   ondrop="window.onPrepDrop(event, ${globalIdx})"
+                   class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder px-3.5 py-3 flex items-center justify-between gap-2.5 shadow-2xs">
+                <!-- Reorder Controls (Up / Down / Drag Handle) -->
+                <div class="flex flex-col items-center gap-0.5 text-gray-400 flex-shrink-0">
+                  <button onclick="window.movePrepItemOrder('${item.id}', -1)" title="Move Up" class="hover:text-surg-600 text-[10px] leading-none p-0.5">▲</button>
+                  <span class="text-[10px] cursor-grab select-none">≡</span>
+                  <button onclick="window.movePrepItemOrder('${item.id}', 1)" title="Move Down" class="hover:text-surg-600 text-[10px] leading-none p-0.5">▼</button>
+                </div>
+
+                <!-- Step Text & Attribution -->
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm font-medium ${item.stage === 'READY' ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-800 dark:text-gray-100'}">${item.text}</div>
+                  ${item.updatedBy ? `<div class="text-[11px] text-surg-600 dark:text-emerald-400 mt-0.5">${item.stage === 'ORDERED' ? 'Ordered' : 'Completed'} by ${item.updatedBy} • ${item.updatedAt}</div>` : ''}
+                </div>
+
+                <!-- Stage Transfer & Check Controls -->
+                <div class="flex items-center gap-1.5 flex-shrink-0">
+                  ${item.stage === 'TODO' ? `
+                    <button onclick="window.movePrepStage('${item.id}', 'ORDERED')" class="px-2.5 py-1 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 text-xs font-semibold">Ordered</button>
+                  ` : ''}
+                  ${item.stage === 'ORDERED' ? `
+                    <button onclick="window.movePrepStage('${item.id}', 'TODO')" class="px-2 py-1 rounded-lg bg-gray-100 dark:bg-zinc-800 text-gray-500 text-[11px]">↩</button>
+                  ` : ''}
+                  <input type="checkbox" class="checkbox-ios" ${item.stage === 'READY' ? 'checked' : ''} onchange="window.movePrepStage('${item.id}', this.checked ? 'READY' : 'TODO')" />
+                  <button onclick="window.deletePrepItem('${item.id}')" class="text-gray-300 hover:text-red-500 text-xs pl-1">✕</button>
+                </div>
               </div>
-              <div class="flex items-center gap-1.5 flex-shrink-0">
-                ${item.stage === 'TODO' ? `
-                  <button onclick="window.movePrepStage('${item.id}', 'ORDERED')" class="px-2.5 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 text-xs font-semibold">Ordered</button>
-                ` : ''}
-                ${item.stage === 'ORDERED' ? `
-                  <button onclick="window.movePrepStage('${item.id}', 'TODO')" class="px-2 py-1 rounded-lg bg-gray-100 dark:bg-zinc-800 text-gray-500 text-[11px]">↩</button>
-                ` : ''}
-                <input type="checkbox" class="checkbox-ios" ${item.stage === 'READY' ? 'checked' : ''} onchange="window.movePrepStage('${item.id}', this.checked ? 'READY' : 'TODO')" />
-                <button onclick="window.deletePrepItem('${item.id}')" title="Remove step for this patient" class="text-gray-300 hover:text-red-500 text-xs pl-1">✕</button>
-              </div>
-            </div>
-          `).join('')}
+            `;
+          }).join('')}
         </div>
       `;
 
       container.innerHTML = `
-        <!-- Header Card matching user's iPhone screenshot "Use this template" button -->
         <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 space-y-3">
           <div class="flex items-center justify-between">
             <div>
               <h3 class="font-bold text-base">${pt.procedure || pt.diagnosis || 'Surgical Preparation'}</h3>
-              <p class="text-xs text-gray-400">Tap "Ordered" when requested, or tick the box when Ready</p>
+              <p class="text-xs text-gray-400">Use ▲/▼ arrows or drag ≡ to reorder steps. Tick box when Ready.</p>
             </div>
           </div>
           <button onclick="window.openTemplatePickerModal()" class="w-full py-2.5 rounded-xl bg-surg-600 hover:bg-surg-700 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-xs transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/></svg>
             <span>Use this template / Load Pathway</span>
           </button>
         </div>
 
-        ${renderStageSection('1. To Do (مطلوب)', 'TODO', todoItems, 'bg-gray-200 dark:bg-zinc-800 text-gray-700 dark:text-gray-300')}
-        ${renderStageSection('2. Ordered / Pending (تم الطلب / بالانتظار)', 'ORDERED', orderedItems, 'bg-amber-500/15 text-amber-600')}
-        ${renderStageSection('3. Ready / Completed (جاهز ومكتمل)', 'READY', readyItems, 'bg-emerald-500/15 text-emerald-600')}
+        ${renderStageBlock('1. To Do (مطلوب)', 'TODO', todoItems, 'bg-gray-200 dark:bg-zinc-800 text-gray-700 dark:text-gray-300')}
+        ${renderStageBlock('2. Ordered / Pending (تم الطلب / بالانتظار)', 'ORDERED', orderedItems, 'bg-amber-500/15 text-amber-600')}
+        ${renderStageBlock('3. Ready / Completed (جاهز ومكتمل)', 'READY', readyItems, 'bg-emerald-500/15 text-emerald-600')}
 
-        <!-- Add Element Row matching screenshot 3 -->
         <button onclick="window.promptAddPrepElement()" class="w-full bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder px-4 py-3.5 text-left text-sm font-medium text-gray-500 hover:text-surg-600 flex items-center justify-between">
           <span>+ Add Element</span>
           <span class="w-6 h-6 rounded-lg bg-surg-600 text-white flex items-center justify-center font-bold text-sm">+</span>
@@ -1544,119 +1849,233 @@
       `;
     }
 
-    // --- TAB 3: DAILY MORNING ROUND, DRAINS & ORDERS ---
-    function renderPatientRoundTab(pt, container) {
-      const drains = pt.drains || {};
-      const orders = pt.roundOrders || [];
+    // --- TAB 3: DATED & LOCKED DAILY MORNING ROUNDS ---
+    function renderDatedRoundsTab(pt, container) {
+      const rounds = pt.dailyRounds || [];
+      const todayIso = new Date().toISOString().split('T')[0];
 
       container.innerHTML = `
-        <!-- Diet & Bowel Status -->
-        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 space-y-3">
-          <h4 class="font-bold text-sm">1. Diet & Bowel Recovery</h4>
-          <div class="flex flex-wrap gap-1.5">
-            ${['NPO', 'Sips of Water', 'Clear Fluids', 'Oral Free Fluids', 'Soft Diet', 'Regular Diet'].map(d => `
-              <button onclick="window.updatePtField('dietStatus', '${d}')" class="px-3 py-1.5 rounded-xl text-xs font-semibold ${
-                pt.dietStatus === d ? 'bg-surg-600 text-white' : 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300'
-              }">${d}</button>
-            `).join('')}
+        <!-- Header Bar to Start a Dated Round -->
+        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 flex items-center justify-between">
+          <div>
+            <h4 class="font-bold text-sm">Daily Surgical Ward Rounds</h4>
+            <p class="text-xs text-gray-400">Each completed round is locked by date into the patient's record</p>
           </div>
-          <div class="flex flex-wrap gap-1.5 pt-1">
-            ${['Passed Flatus ✓', 'Passed Stool ✓', 'Bowel Sounds (+)', 'Abdomen Distended'].map(b => `
-              <button onclick="window.updatePtField('bowelStatus', '${b}')" class="px-3 py-1.5 rounded-xl text-xs font-medium ${
-                pt.bowelStatus === b ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300'
-              }">${b}</button>
-            `).join('')}
-          </div>
+          <button onclick="window.toggleNewRoundForm(true)" class="px-3.5 py-2 rounded-xl bg-surg-600 hover:bg-surg-700 text-white text-xs font-semibold shadow-xs">
+            + Start New Round
+          </button>
         </div>
 
-        <!-- Drains, Tubes & Wound Output -->
-        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 space-y-3">
-          <h4 class="font-bold text-sm">2. Drains, Tubes & Wound Status (24h Output)</h4>
+        <!-- Collapsible New Daily Round Entry Sheet (Closes once Done is clicked) -->
+        <div id="newDailyRoundBuilder" class="${window.appState.newRoundFormOpen ? '' : 'hidden'} bg-white dark:bg-ios-darkcard rounded-2xl border-2 border-surg-600 p-5 space-y-4 shadow-md">
+          <div class="flex items-center justify-between border-b border-gray-100 dark:border-zinc-800 pb-2.5">
+            <h4 class="font-bold text-sm text-surg-600">New Daily Round Entry</h4>
+            <button onclick="window.toggleNewRoundForm(false)" class="text-xs text-gray-400">Cancel ✕</button>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+            <div>
+              <label class="block text-[11px] font-semibold text-gray-500 mb-1">Round Date *</label>
+              <input id="rndDate" type="date" value="${todayIso}" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs font-bold" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-gray-500 mb-1">Day / POD Status</label>
+              <input id="rndDayLabel" type="text" placeholder="e.g., POD #1 or Adm Day 2" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs font-semibold" />
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block text-[11px] font-semibold text-gray-500 mb-1">Vitals & General</label>
+              <input id="rndVitals" type="text" value="Stable, Afebrile" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs" />
+            </div>
+          </div>
+
           <div class="grid grid-cols-2 gap-2.5">
             <div>
-              <label class="block text-[11px] text-gray-500 mb-1">NG Tube (ml & color)</label>
-              <input type="text" value="${drains.ng || ''}" onchange="window.updatePtDrain('ng', this.value)" placeholder="e.g., 200ml Bilious" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs" />
+              <label class="block text-[11px] font-semibold text-gray-500 mb-1">Diet Regimen</label>
+              <select id="rndDiet" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs font-semibold">
+                <option value="NPO">NPO</option>
+                <option value="Sips of Water">Sips of Water</option>
+                <option value="Clear Fluids">Clear Fluids</option>
+                <option value="Free Oral Fluids">Free Oral Fluids</option>
+                <option value="Soft Diet">Soft Diet</option>
+                <option value="Regular Diet">Regular Diet</option>
+              </select>
             </div>
             <div>
-              <label class="block text-[11px] text-gray-500 mb-1">Foley Catheter UOP</label>
-              <input type="text" value="${drains.foley || ''}" onchange="window.updatePtDrain('foley', this.value)" placeholder="e.g., 1400ml Clear" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs" />
-            </div>
-            <div>
-              <label class="block text-[11px] text-gray-500 mb-1">Surgical Drain (ml & type)</label>
-              <input type="text" value="${drains.drain1 || ''}" onchange="window.updatePtDrain('drain1', this.value)" placeholder="e.g., 50ml Serosanguinous" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs" />
-            </div>
-            <div>
-              <label class="block text-[11px] text-gray-500 mb-1">Wound Dressing</label>
-              <input type="text" value="${drains.wound || ''}" onchange="window.updatePtDrain('wound', this.value)" placeholder="Clean & Dry / Soaked" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs" />
+              <label class="block text-[11px] font-semibold text-gray-500 mb-1">Bowel & Abdomen</label>
+              <input id="rndBowel" type="text" placeholder="e.g., Soft, Passed Flatus (+)" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs" />
             </div>
           </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div>
+              <label class="block text-[10px] text-gray-500 mb-1">NG Tube (24h)</label>
+              <input id="rndNg" type="text" placeholder="None / ml" class="w-full px-2.5 py-1.5 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs" />
+            </div>
+            <div>
+              <label class="block text-[10px] text-gray-500 mb-1">Foley UOP (24h)</label>
+              <input id="rndFoley" type="text" placeholder="e.g. 1500ml" class="w-full px-2.5 py-1.5 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs" />
+            </div>
+            <div>
+              <label class="block text-[10px] text-gray-500 mb-1">Surgical Drain</label>
+              <input id="rndDrain" type="text" placeholder="e.g. 40ml Serous" class="w-full px-2.5 py-1.5 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs" />
+            </div>
+            <div>
+              <label class="block text-[10px] text-gray-500 mb-1">Wound Status</label>
+              <input id="rndWound" type="text" value="Clean & Dry" class="w-full px-2.5 py-1.5 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-gray-500 mb-1">Round Assessment & Senior Plan Note</label>
+            <textarea id="rndNote" rows="2" placeholder="Clinical progress note & senior surgeon instructions..." class="w-full p-2.5 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-gray-500 mb-1">Actionable Round Orders (One per line or comma-separated)</label>
+            <input id="rndOrdersInput" type="text" placeholder="e.g., Remove Foley catheter, Repeat CBC & K+, Mobilize out of bed" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs" />
+          </div>
+
+          <button onclick="window.saveCompletedDailyRound()" class="w-full py-3 rounded-xl bg-surg-600 hover:bg-surg-700 text-white font-bold text-sm shadow-sm">
+            ✓ Done — Save & Lock Daily Round
+          </button>
         </div>
 
-        <!-- Morning Round Plan & Actionable Orders -->
-        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="font-bold text-sm">3. Morning Round Tasks & Orders</h4>
-            <button onclick="window.addMorningRoundOrder()" class="px-3 py-1 rounded-xl bg-surg-600 text-white text-xs font-semibold">+ Add Order</button>
-          </div>
-          <div class="space-y-2">
-            ${orders.length === 0 ? `<p class="text-xs text-gray-400">No round tasks added for today.</p>` : orders.map((o, idx) => `
-              <div class="flex items-center justify-between p-2.5 rounded-xl bg-gray-50 dark:bg-zinc-800/80 border border-gray-200 dark:border-zinc-700">
-                <div>
-                  <div class="text-xs font-medium ${o.done ? 'line-through text-gray-400' : ''}">${o.text}</div>
-                  ${o.doneBy ? `<div class="text-[10px] text-surg-600">Done by ${o.doneBy} • ${o.doneAt}</div>` : ''}
+        <!-- SAVED CHRONOLOGICAL DAILY ROUNDS TIMELINE -->
+        <div class="space-y-3">
+          ${rounds.length === 0 ? `
+            <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-8 text-center text-xs text-gray-400">
+              No daily rounds saved yet. Tap "+ Start New Round" to document today's round.
+            </div>
+          ` : rounds.map((r, rIdx) => `
+            <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 space-y-3 shadow-2xs">
+              <div class="flex items-center justify-between border-b border-gray-100 dark:border-zinc-800 pb-2.5">
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-1 rounded-xl bg-surg-50 dark:bg-emerald-950 text-surg-700 dark:text-emerald-300 font-bold text-xs">${r.date}</span>
+                  ${r.dayLabel ? `<span class="text-xs font-bold text-blue-600 dark:text-blue-400">${r.dayLabel}</span>` : ''}
                 </div>
-                <input type="checkbox" class="checkbox-ios" ${o.done ? 'checked' : ''} onchange="window.toggleRoundOrder(${idx}, this.checked)" />
+                <span class="text-[11px] text-gray-400">Logged by ${r.loggedBy || 'Dr.'} • ${r.loggedAt || ''}</span>
               </div>
-            `).join('')}
-          </div>
-          <textarea onchange="window.updatePtField('roundNote', this.value)" rows="2" placeholder="Senior Surgeon round notes & plan..." class="w-full p-2.5 rounded-xl bg-gray-50 dark:bg-zinc-800/70 border border-gray-200 dark:border-zinc-700 text-xs focus:outline-none">${pt.roundNote || ''}</textarea>
+
+              <!-- Fixed Round Summary Grid -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                <div class="p-2 rounded-xl bg-gray-50 dark:bg-zinc-800/60">
+                  <span class="block text-[10px] text-gray-400">Vitals</span>
+                  <strong>${r.vitals || 'Stable'}</strong>
+                </div>
+                <div class="p-2 rounded-xl bg-gray-50 dark:bg-zinc-800/60">
+                  <span class="block text-[10px] text-gray-400">Diet</span>
+                  <strong class="text-surg-600">${r.diet || 'NPO'}</strong>
+                </div>
+                <div class="p-2 rounded-xl bg-gray-50 dark:bg-zinc-800/60">
+                  <span class="block text-[10px] text-gray-400">Bowel / Abd</span>
+                  <strong>${r.bowel || '—'}</strong>
+                </div>
+                <div class="p-2 rounded-xl bg-gray-50 dark:bg-zinc-800/60">
+                  <span class="block text-[10px] text-gray-400">Wound</span>
+                  <strong>${r.wound || 'Clean & Dry'}</strong>
+                </div>
+              </div>
+
+              ${(r.ng || r.foley || r.drain) ? `
+                <div class="flex flex-wrap gap-3 text-xs bg-gray-50 dark:bg-zinc-800/40 px-3 py-2 rounded-xl">
+                  ${r.ng ? `<span><strong>NG:</strong> ${r.ng}</span>` : ''}
+                  ${r.foley ? `<span><strong>Foley:</strong> ${r.foley}</span>` : ''}
+                  ${r.drain ? `<span><strong>Drain:</strong> ${r.drain}</span>` : ''}
+                </div>
+              ` : ''}
+
+              ${r.note ? `<p class="text-xs text-gray-700 dark:text-gray-200 leading-relaxed bg-gray-50/70 dark:bg-zinc-800/30 p-3 rounded-xl">${r.note}</p>` : ''}
+
+              <!-- Interactive Round Orders Checkboxes inside Saved Round -->
+              ${(r.orders || []).length > 0 ? `
+                <div class="space-y-1.5 pt-1">
+                  <div class="text-[11px] font-bold uppercase tracking-wider text-gray-400">Round Orders & Tasks</div>
+                  ${r.orders.map((ord, oIdx) => `
+                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-gray-50 dark:bg-zinc-800/80 border border-gray-200 dark:border-zinc-700">
+                      <div>
+                        <div class="text-xs font-medium ${ord.done ? 'line-through text-gray-400' : ''}">${ord.text}</div>
+                        ${ord.doneBy ? `<div class="text-[10px] text-surg-600">Done by ${ord.doneBy} • ${ord.doneAt}</div>` : ''}
+                      </div>
+                      <input type="checkbox" class="checkbox-ios" ${ord.done ? 'checked' : ''} onchange="window.toggleSavedRoundOrder(${rIdx}, ${oIdx}, this.checked)" />
+                    </div>
+                  `).join('')}
+                </div>
+              ` : ''}
+            </div>
+          `).join('')}
         </div>
       `;
     }
 
-    // ================= PATIENT ACTIONS & HANDLERS =================
-    window.updatePtField = async function(field, val) {
-      const pt = getActivePatient();
-      if (!pt) return;
-      pt[field] = val;
-      await savePatientRecord(pt);
+    // ================= HANDLERS FOR LAB SETS, INVX, REORDERING & ROUNDS =================
+    window.openAddLabSetModal = function() {
+      document.getElementById('newLabDate').value = formatShortDateTime();
+      document.getElementById('newLabLabel').value = '';
+      document.getElementById('newLabInputsGrid').innerHTML = LAB_PARAMETERS.map(lf => `
+        <div class="p-2 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700">
+          <label class="block text-[10px] font-bold text-gray-500">${lf.label}</label>
+          <input type="text" id="followupLab_${lf.key}" placeholder="—" class="w-full bg-transparent text-xs font-bold focus:outline-none" />
+        </div>
+      `).join('');
+      document.getElementById('addLabSetModal').classList.remove('hidden');
     };
 
-    window.togglePtChip = async function(listKey, chip) {
+    window.saveNewLabSet = async function(e) {
+      e.preventDefault();
       const pt = getActivePatient();
       if (!pt) return;
-      pt[listKey] = pt[listKey] || [];
-      const i = pt[listKey].indexOf(chip);
-      if (i >= 0) pt[listKey].splice(i, 1);
-      else pt[listKey].push(chip);
-      await savePatientRecord(pt);
-    };
 
-    window.addCustomQuickChip = function(category) {
-      const label = prompt(`Add new quick button to ${category}:`);
-      if (!label || !label.trim()) return;
-      window.appState.quickChips[category].push(label.trim());
-      localStorage.setItem('unitd_quick_chips', JSON.stringify(window.appState.quickChips));
-      renderPatientSheetContent();
-    };
+      const values = {};
+      let hasVal = false;
+      LAB_PARAMETERS.forEach(lf => {
+        const v = document.getElementById('followupLab_' + lf.key)?.value.trim() || '';
+        if (v) {
+          values[lf.key] = v;
+          hasVal = true;
+        }
+      });
 
-    window.updatePtLab = async function(key, val) {
-      const pt = getActivePatient();
-      if (!pt) return;
-      pt.labs = pt.labs || {};
-      pt.prevLabs = pt.prevLabs || {};
-      if (pt.labs[key] && pt.labs[key] !== val) {
-        pt.prevLabs[key] = pt.labs[key];
+      if (!hasVal) {
+        alert("Please enter at least one laboratory value.");
+        return;
       }
-      pt.labs[key] = val.trim();
+
+      pt.labSets = pt.labSets || [];
+      pt.labSets.push({
+        id: 'lab_' + Date.now(),
+        label: document.getElementById('newLabLabel').value.trim() || (`Follow-Up #${pt.labSets.length}`),
+        date: document.getElementById('newLabDate').value.trim(),
+        by: window.appState.currentDoctor?.name || 'Dr.',
+        values
+      });
+
+      document.getElementById('addLabSetModal').classList.add('hidden');
       await savePatientRecord(pt);
     };
 
-    window.addPtInvx = async function(name) {
+    window.openAddInvxModal = function() {
+      document.getElementById('newInvxDate').value = formatShortDateTime();
+      document.getElementById('newInvxName').value = '';
+      document.getElementById('newInvxFinding').value = '';
+      const iChips = window.appState.quickChips.invx || [];
+      document.getElementById('invxQuickModalities').innerHTML = iChips.map(m => `
+        <button type="button" onclick="document.getElementById('newInvxName').value='${m.replace(/'/g, "\\'")}'" class="px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-zinc-800 text-[11px] font-medium hover:bg-surg-50">${m}</button>
+      `).join('');
+      document.getElementById('addInvxModal').classList.remove('hidden');
+    };
+
+    window.saveNewInvx = async function(e) {
+      e.preventDefault();
       const pt = getActivePatient();
       if (!pt) return;
       pt.invxList = pt.invxList || [];
-      pt.invxList.push({ name, status: 'Ordered', finding: '' });
+      pt.invxList.push({
+        name: document.getElementById('newInvxName').value.trim(),
+        date: document.getElementById('newInvxDate').value.trim(),
+        status: document.getElementById('newInvxStatus').value,
+        finding: document.getElementById('newInvxFinding').value.trim()
+      });
+      document.getElementById('addInvxModal').classList.add('hidden');
       await savePatientRecord(pt);
     };
 
@@ -1664,15 +2083,7 @@
       const pt = getActivePatient();
       if (!pt || !pt.invxList[idx]) return;
       const states = ['Ordered', 'Done', 'Reviewed'];
-      const curr = pt.invxList[idx].status;
-      pt.invxList[idx].status = states[(states.indexOf(curr) + 1) % states.length];
-      await savePatientRecord(pt);
-    };
-
-    window.updateInvxFinding = async function(idx, val) {
-      const pt = getActivePatient();
-      if (!pt || !pt.invxList[idx]) return;
-      pt.invxList[idx].finding = val;
+      pt.invxList[idx].status = states[(states.indexOf(pt.invxList[idx].status) + 1) % states.length];
       await savePatientRecord(pt);
     };
 
@@ -1683,15 +2094,49 @@
       await savePatientRecord(pt);
     };
 
+    // Reordering Preparation Checklist Steps
+    window.movePrepItemOrder = async function(itemId, direction) {
+      const pt = getActivePatient();
+      if (!pt || !pt.prepItems) return;
+      const idx = pt.prepItems.findIndex(x => x.id === itemId);
+      if (idx < 0) return;
+      const targetIdx = idx + direction;
+      if (targetIdx < 0 || targetIdx >= pt.prepItems.length) return;
+      const temp = pt.prepItems[idx];
+      pt.prepItems[idx] = pt.prepItems[targetIdx];
+      pt.prepItems[targetIdx] = temp;
+      await savePatientRecord(pt);
+    };
+
+    window.onPrepDragStart = function(e, index) {
+      window.appState.draggedPrepIndex = index;
+      e.dataTransfer.effectAllowed = 'move';
+    };
+
+    window.onPrepDragOver = function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+    };
+
+    window.onPrepDrop = async function(e, dropIndex) {
+      e.preventDefault();
+      const fromIndex = window.appState.draggedPrepIndex;
+      const pt = getActivePatient();
+      if (fromIndex === null || fromIndex === dropIndex || !pt || !pt.prepItems) return;
+      const [moved] = pt.prepItems.splice(fromIndex, 1);
+      pt.prepItems.splice(dropIndex, 0, moved);
+      window.appState.draggedPrepIndex = null;
+      await savePatientRecord(pt);
+    };
+
     window.movePrepStage = async function(itemId, newStage) {
       const pt = getActivePatient();
       if (!pt) return;
       const item = (pt.prepItems || []).find(x => x.id === itemId);
       if (!item) return;
       item.stage = newStage;
-      const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       item.updatedBy = window.appState.currentDoctor?.name || 'Dr.';
-      item.updatedAt = now;
+      item.updatedAt = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       if (navigator.vibrate) navigator.vibrate(15);
       await savePatientRecord(pt);
     };
@@ -1699,7 +2144,7 @@
     window.promptAddPrepElement = async function() {
       const pt = getActivePatient();
       if (!pt) return;
-      const text = prompt("Enter new checklist step for this patient:");
+      const text = prompt("Enter new checklist step:");
       if (!text || !text.trim()) return;
       pt.prepItems = pt.prepItems || [];
       pt.prepItems.push({
@@ -1749,30 +2194,66 @@
       await savePatientRecord(pt);
     };
 
-    window.updatePtDrain = async function(k, val) {
+    // Daily Round Handlers
+    window.toggleNewRoundForm = function(open) {
+      window.appState.newRoundFormOpen = open;
+      renderPatientSheetContent();
+    };
+
+    window.saveCompletedDailyRound = async function() {
       const pt = getActivePatient();
       if (!pt) return;
-      pt.drains = pt.drains || {};
-      pt.drains[k] = val;
+
+      const dateVal = document.getElementById('rndDate').value || new Date().toISOString().split('T')[0];
+      const dayLabel = document.getElementById('rndDayLabel').value.trim();
+      const vitals = document.getElementById('rndVitals').value.trim();
+      const diet = document.getElementById('rndDiet').value;
+      const bowel = document.getElementById('rndBowel').value.trim();
+      const ng = document.getElementById('rndNg').value.trim();
+      const foley = document.getElementById('rndFoley').value.trim();
+      const drain = document.getElementById('rndDrain').value.trim();
+      const wound = document.getElementById('rndWound').value.trim();
+      const note = document.getElementById('rndNote').value.trim();
+      const rawOrders = document.getElementById('rndOrdersInput').value.trim();
+
+      const orders = rawOrders
+        ? rawOrders.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean).map(text => ({
+            text,
+            done: false,
+            doneBy: '',
+            doneAt: ''
+          }))
+        : [];
+
+      pt.dailyRounds = pt.dailyRounds || [];
+      pt.dailyRounds.unshift({
+        id: 'rnd_' + Date.now(),
+        date: dateVal,
+        dayLabel,
+        vitals,
+        diet,
+        bowel,
+        ng,
+        foley,
+        drain,
+        wound,
+        note,
+        orders,
+        loggedBy: window.appState.currentDoctor?.name || 'Dr.',
+        loggedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      });
+
+      window.appState.newRoundFormOpen = false;
       await savePatientRecord(pt);
     };
 
-    window.addMorningRoundOrder = async function() {
+    window.toggleSavedRoundOrder = async function(roundIdx, orderIdx, checked) {
       const pt = getActivePatient();
-      if (!pt) return;
-      const text = prompt("Enter Morning Round Order (e.g., Remove drain, Repeat CBC, Book US):");
-      if (!text || !text.trim()) return;
-      pt.roundOrders = pt.roundOrders || [];
-      pt.roundOrders.push({ text: text.trim(), done: false, doneBy: '', doneAt: '' });
-      await savePatientRecord(pt);
-    };
-
-    window.toggleRoundOrder = async function(idx, checked) {
-      const pt = getActivePatient();
-      if (!pt || !pt.roundOrders[idx]) return;
-      pt.roundOrders[idx].done = checked;
-      pt.roundOrders[idx].doneBy = checked ? (window.appState.currentDoctor?.name || 'Dr.') : '';
-      pt.roundOrders[idx].doneAt = checked ? new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+      if (!pt || !pt.dailyRounds?.[roundIdx]?.orders?.[orderIdx]) return;
+      const ord = pt.dailyRounds[roundIdx].orders[orderIdx];
+      ord.done = checked;
+      ord.doneBy = checked ? (window.appState.currentDoctor?.name || 'Dr.') : '';
+      ord.doneAt = checked ? new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
       await savePatientRecord(pt);
     };
 
@@ -1796,32 +2277,13 @@
       window.closePatientSheet();
     };
 
-    window.startVoiceDictation = function(fieldKey) {
-      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRec) {
-        alert("Voice dictation is supported on Safari iOS & Chrome.");
-        return;
-      }
-      const rec = new SpeechRec();
-      rec.lang = 'en-US';
-      rec.onresult = async (e) => {
-        const transcript = e.results[0][0].transcript;
-        const pt = getActivePatient();
-        if (pt) {
-          pt[fieldKey] = (pt[fieldKey] ? pt[fieldKey] + ' ' : '') + transcript;
-          await savePatientRecord(pt);
-        }
-      };
-      rec.start();
-    };
-
-    // ================= TEMPLATES STUDIO (CREATE & EDIT TEMPLATES) =================
+    // ================= TEMPLATES STUDIO (WITH STEP REORDERING) =================
     function renderTemplatesStudio(container) {
       container.innerHTML = `
         <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 flex items-center justify-between">
           <div>
             <h3 class="font-bold text-sm">Unit D Operative & Preparation Templates</h3>
-            <p class="text-xs text-gray-400">Create or customize checklists synced across all Unit D doctors</p>
+            <p class="text-xs text-gray-400">Add, delete, or reorder steps using ▲/▼ arrows</p>
           </div>
           <button onclick="window.createNewTemplate()" class="px-3.5 py-2 rounded-xl bg-surg-600 text-white text-xs font-semibold">+ New Template</button>
         </div>
@@ -1841,8 +2303,12 @@
               <div class="space-y-1.5">
                 ${t.steps.map((s, idx) => `
                   <div class="flex items-center justify-between text-xs py-1.5 px-3 rounded-xl bg-gray-50 dark:bg-zinc-800/70">
-                    <span>${idx + 1}. ${s}</span>
-                    <button onclick="window.removeStepFromTemplate('${t.id}', ${idx})" class="text-gray-400 hover:text-red-500">✕</button>
+                    <span><strong>${idx + 1}.</strong> ${s}</span>
+                    <div class="flex items-center gap-1.5">
+                      <button onclick="window.moveTemplateStepOrder('${t.id}', ${idx}, -1)" class="text-gray-400 hover:text-surg-600 px-1">▲</button>
+                      <button onclick="window.moveTemplateStepOrder('${t.id}', ${idx}, 1)" class="text-gray-400 hover:text-surg-600 px-1">▼</button>
+                      <button onclick="window.removeStepFromTemplate('${t.id}', ${idx})" class="text-gray-400 hover:text-red-500 pl-1">✕</button>
+                    </div>
                   </div>
                 `).join('')}
               </div>
@@ -1852,6 +2318,18 @@
       `;
     }
 
+    window.moveTemplateStepOrder = async function(tplId, idx, dir) {
+      const tpl = window.appState.templates.find(t => t.id === tplId);
+      if (!tpl) return;
+      const target = idx + dir;
+      if (target < 0 || target >= tpl.steps.length) return;
+      const tmp = tpl.steps[idx];
+      tpl.steps[idx] = tpl.steps[target];
+      tpl.steps[target] = tmp;
+      renderMainView();
+      await setDoc(doc(db, WORKSPACE_PATH, "templates", "items", tpl.id), tpl);
+    };
+
     window.createNewTemplate = async function() {
       const title = prompt("Template Name (e.g., Thyroidectomy / Perforated DU):");
       if (!title) return;
@@ -1860,7 +2338,7 @@
         id: 'tpl_' + Date.now(),
         title: title.trim(),
         category,
-        steps: ["Open file", "Complete investigations", "Consent signed", "Inform anesthesia"]
+        steps: ["Open file", "Recheck investigations", "Consent form signed", "Inform anesthesia"]
       };
       window.appState.templates.push(newTpl);
       renderMainView();
@@ -1892,17 +2370,15 @@
       await deleteDoc(doc(db, WORKSPACE_PATH, "templates", "items", tplId));
     };
 
-    // ================= ADMIN PANEL (APPROVE DOCTORS & PASSCODE) =================
+    // ================= ADMIN PANEL =================
     function renderAdminPanel(container) {
       container.innerHTML = `
-        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 space-y-3">
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="font-bold text-sm">Unit D Access Passcode</h3>
-              <p class="text-xs text-gray-400">Share this code with Unit D colleagues for instant access</p>
-            </div>
-            <span class="px-4 py-1.5 rounded-xl bg-surg-50 dark:bg-emerald-950 text-surg-700 dark:text-emerald-300 font-mono font-bold text-base">${window.appState.unitPasscode}</span>
+        <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-sm">Unit D Access Passcode</h3>
+            <p class="text-xs text-gray-400">Share with Unit D doctors for immediate authorization</p>
           </div>
+          <span class="px-4 py-1.5 rounded-xl bg-surg-50 dark:bg-emerald-950 text-surg-700 dark:text-emerald-300 font-mono font-bold text-base">${window.appState.unitPasscode}</span>
         </div>
 
         <div class="bg-white dark:bg-ios-darkcard rounded-2xl border border-ios-border dark:border-ios-darkborder p-4 space-y-3">
@@ -1935,7 +2411,7 @@
       await setDoc(doc(db, WORKSPACE_PATH, "doctors", "items", uid), docItem, { merge: true });
     };
 
-    // ================= 1-CLICK GITHUB AUTO-UPDATER =================
+    // ================= CLEAN 1-CLICK GITHUB AUTO-UPDATER =================
     window.openGitHubDeployModal = function() {
       window.toggleSidebar(false);
       document.getElementById('githubDeployModal').classList.remove('hidden');
@@ -1948,7 +2424,7 @@
       const logEl = document.getElementById('ghDeployLog');
 
       if (!token) {
-        alert("Please paste your GitHub token (ghp_...)");
+        alert("Please enter your GitHub token (ghp_...)");
         return;
       }
       localStorage.setItem('unitd_gh_token', token);
@@ -1970,21 +2446,30 @@
           sha = data.sha;
         }
 
-        const fullHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+        // Clone DOM and reset modals so the pushed file always opens in a clean state
+        const cloneDoc = document.documentElement.cloneNode(true);
+        cloneDoc.querySelector('#githubDeployModal')?.classList.add('hidden');
+        cloneDoc.querySelector('#authScreen')?.classList.remove('hidden');
+        cloneDoc.querySelector('#unitLockScreen')?.classList.add('hidden');
+        cloneDoc.querySelector('#patientDetailSheet')?.classList.add('hidden');
+        const tokenInputInClone = cloneDoc.querySelector('#ghTokenInput');
+        if (tokenInputInClone) tokenInputInClone.value = '';
+
+        const fullHtml = "<!DOCTYPE html>\n" + cloneDoc.outerHTML;
         const encoded = btoa(unescape(encodeURIComponent(fullHtml)));
 
         const putRes = await fetch(fileUrl, {
           method: "PUT",
           headers,
           body: JSON.stringify({
-            message: "Update Unit D Surgical Workspace",
+            message: "Upgrade Unit D Clinical System (Fixed Summary, Lab Flowsheet, Reorder & Dated Rounds)",
             content: encoded,
             ...(sha ? { sha } : {})
           })
         });
 
         if (putRes.ok) {
-          logEl.innerHTML += `<div class="text-white font-bold mt-1">✅ Live Site Updated Successfully!</div><div>URL: https://${owner}.github.io/${repo}/</div>`;
+          logEl.innerHTML += `<div class="text-white font-bold mt-1">✅ Live Site Updated Cleanly!</div><div>URL: https://${owner}.github.io/${repo}/</div>`;
         } else {
           const err = await putRes.json();
           logEl.innerHTML += `<div class="text-red-400">Error: ${err.message}</div>`;
@@ -1994,9 +2479,8 @@
       }
     };
 
-    // Boot Workspace
     renderSubFilters();
-    initCloudSync();
+    bootApplication();
   </script>
 </body>
 </html>
