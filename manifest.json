@@ -1,0 +1,23 @@
+{
+  "name": "Unit D Surgical Workspace",
+  "short_name": "Unit D",
+  "description": "General Surgery & Trauma Clinical Workspace",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#0f6e43",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='42' fill='%230f6e43'/><path d='M96 44v104M44 96h104' stroke='white' stroke-width='20' stroke-linecap='round'/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='110' fill='%230f6e43'/><path d='M256 116v280M116 256h280' stroke='white' stroke-width='52' stroke-linecap='round'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
